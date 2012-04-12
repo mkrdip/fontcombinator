@@ -184,6 +184,9 @@
 	</section>
 	<section id="change-log" class="panel">
 		<h1>Change Log</h1>
+		<h2>Version 1.0.1 - April 12th, 2012</h2>
+		<p>Added some requested functionality - if you click on an editable element, the relevent type control becomes active.</p>
+		<p>Also added a subtle outline on hover of editable text in the hope that it makes it more obvious that text is editable.</p>
 		<h2>Version 1.0 - April 4th, 2012</h2>
 		<p>Version 1.0 is a total rewrite of the font combinator - from the ground up! I&rsquo;ve been working on this for a few months - I wanted to bring some cool new features. Such as:</p>
 		<p><strong>Performance Enhancements</strong> - taking advantage of some of the intricacies of the Google Font API, page load should be a lot faster.</p>
@@ -301,7 +304,11 @@
 	<div class="footer_wrapper">
 
 	<footer class="clearfix">
-		<p>&copy; <?php echo date("Y") ?> <a href="http://chipcullen.com/" rel="external">Chip Cullen</a> | <a href="https://twitter.com/#!/chipcullen" rel="external">Follow me on Twitter!</a> | <a href="https://github.com/chippper/fontcombinator" rel="external">GitHub</a></p>
+		<p>
+		&copy; <?php echo date("Y") ?> <a href="http://chipcullen.com/" rel="external">Chip Cullen</a> | 
+		<a href="https://twitter.com/#!/chipcullen" rel="external">Follow me on Twitter!</a> | 
+		<a href="https://github.com/chippper/fontcombinator" rel="external">GitHub</a>
+	</p>
 		<nav>
 			<ul id="panel_nav">
 					<li><a href="#font-combinator" class="here">Font Combinator</a></li>

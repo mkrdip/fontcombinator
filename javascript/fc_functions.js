@@ -185,10 +185,7 @@ $(document).ready(function () {
 			$(elem).css('font-family', fontName);
 			
 		});
-		chosenAttach();
-		
-
-		
+		chosenAttach();		
 	}
 	
 	function variantChange() {
@@ -285,7 +282,7 @@ $(document).ready(function () {
 	$('#h1_hide, #h2_hide, #p_hide').on('click',function() {
 			var elem = $(this).attr('id').split('_hide')[0];
 			if($(this).val() === "Hide") {
-				$(elem).fadeOut('slow');
+				$(elem).not('footer p').fadeOut('slow');
 				$(this).val('Show');
 			} else {
 				$(elem).fadeIn('slow');
@@ -377,8 +374,32 @@ $(document).ready(function () {
 			noLove();
 		}
 	}
+	//allows users to click on an element and have the relevant control appear
+	$('#content_main h1, #content_main h2, #p_text p').on('click',function(){
+		var elem = this.nodeName.toLowerCase();
+		var controlId = '#' + elem + '_sec';
+		if(!($(controlId).hasClass('active'))) {
+			$('.control.active').fadeOut('fast', function() {
+				$('.control.active').removeClass('active');
+				$(controlId).fadeIn('fast', function() {
+					$(this).addClass('active');
+					$('#h1_select_chzn, #h2_select_chzn, #p_select_chzn, .chzn-drop').css('width','180px');
+				});
+			});
+			$('#control_option_chzn').fadeOut('fast', function(){
+				if(elem === 'h1'){
+					$('#control_option_chzn .chzn-single span').text('Headline (H1)');
+				} else if(elem === 'h2'){
+					$('#control_option_chzn .chzn-single span').text('Subhead (H2)');
+				} else if(elem === 'p'){
+					$('#control_option_chzn .chzn-single span').text('Body text (p)');
+				} 
+			});
+			$('#control_option_chzn').fadeIn('fast');
+		}
+	});
 	
-
+	
 });
 
 

@@ -86,12 +86,16 @@ background: white;
 	overflow: scroll;
 }
 
+#content_main h1:hover, #content_main h2:hover, #p_text:hover {
+	outline: dashed 3px rgba(0,0,0,.3);
+}
+#content_main h1:active {
+	/*outline: dashed 3px red;*/
+}
 #nav_controls {
 	background: #292929;
-		width: 80%;
+	width: 80%;
 	margin:-30px auto 0;
-
-	
 	.rounded(@radius);
 }
 #controls {
