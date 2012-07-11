@@ -14,11 +14,12 @@
 	}
 	
 
+		
 	
 	//loads default system fonts
 	function defaultFonts($elem){
 		echo '<option disabled>*** System Fonts ***</option>';
-		
+		global $systemFontArr;
 		$systemFontArr = array(
 			'Arial',
 			'Garamond',
@@ -30,7 +31,7 @@
 			'Trebuchet MS',
 			'Verdana'
 			);	
-	
+
 		foreach($systemFontArr as $value) {
 			echo '<option class="system_font" value="' . $value . '"';
 			if(isset($_GET[$elem]) && $_GET[$elem] == $value){
@@ -94,17 +95,17 @@
 	}
 	</script>
 	
-
-
-	
-
-	
 	<style type="text/css" media="screen">
 
-
+	#wrapper {
+		<?php
+		if(isset($_GET['bgcolor'])){ 
+		   	 echo 'background-color: #' . $_GET['bgcolor'] . ';';	 
+		    }
+		?>
+	}
 	
 	h1 {
-	
 		<?php
 		if(isset($_GET['h1'])){ 
 		   	 echo 'font-family: ' . $_GET['h1'] . ';';	 
@@ -112,6 +113,10 @@
 		if(isset($_GET['h1size'])){ 
 			   	 echo 'font-size: ' . $_GET['h1size'] . 'px;';	 
 			    }
+		if(isset($_GET['h1lh'])){ 
+			   	 echo 'line-height: ' . $_GET['h1lh'] . ';';	 
+			    }
+				
 		if(isset($_GET['h1color'])){ 
 			   	 echo 'color: #' . $_GET['h1color'] . ';';	 
 			    }
@@ -126,6 +131,9 @@
 		if(isset($_GET['h2size'])){ 
 	   	 echo 'font-size: ' . $_GET['h2size'] . 'px;';	 
 	    }
+		if(isset($_GET['h2lh'])){ 
+			   	 echo 'line-height: ' . $_GET['h2lh'] . ';';	 
+			    }
 	
 		if(isset($_GET['h2color'])){ 
 				echo 'color: #' . $_GET['h2color'] . ';';	 
@@ -144,18 +152,48 @@
 		if(isset($_GET['psize'])){ 
 	   	 echo 'font-size: ' . $_GET['psize'] . 'px;';	 
 	    }
+		if(isset($_GET['plh'])){ 
+			   	 echo 'line-height: ' . $_GET['plh'] . ';';	 
+			    }
 	
 		if(isset($_GET['pcolor'])){ 
 				echo 'color: #' . $_GET['pcolor'] . ';';	 
 			}
 
-		if(isset($_GET['plh'])){ 
-				echo 'line-height: ' . $_GET['plh'] . ';';	 
-			}
+
 		?>
 	}
 	</style>	
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ultra" type="text/css" />
+	
+	<?php 
+	
+	$systemFontArr = array(
+		'Arial',
+		'Garamond',
+		'Georgia',
+		'Helvetica',
+		'Palatino',
+		'Tahoma',
+		'Times New Roman',
+		'Trebuchet MS',
+		'Verdana'
+		);	
+	
+	
+	if(isset($_GET['h1']) && !in_array($_GET['h1'], $systemFontArr)){ 
+		echo '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=' . str_replace(' ','+', $_GET['h1']) . '" type="text/css" />';
+	} else {
+		echo '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ultra" type="text/css" />';
+	}
+	
+	if(isset($_GET['h2']) && !in_array($_GET['h2'], $systemFontArr)){ 
+			echo '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=' . str_replace(' ','+', $_GET['h2']) . '" type="text/css" />';
+		}
+	if(isset($_GET['p']) && !in_array($_GET['p'], $systemFontArr)){ 
+			echo '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=' . str_replace(' ','+', $_GET['p']) . '" type="text/css" />';
+		}
+	
+		 ?>
 </head>
 <body>
 	<div id="wrapper">
@@ -223,8 +261,8 @@
 
 				<div class="lh">
 					<label for="h1lh">Line Height:</label>
-					<input type="range" name="h1lh" value="<?php isSetDef('h1lh', '1.40'); ?>" id="h1lh" step="0.01" min="0" max="5"/>
-					<span class="value"><?php isSetDef('h1lh', '1.40'); ?></span>
+					<input type="range" name="h1lh" value="<?php isSetDef('h1lh', '1.41'); ?>" id="h1lh" step="0.01" min="0" max="5" />
+					<span class="value"><?php isSetDef('h1lh', '1.41'); ?></span>
 				</div>
 			
 				<div class="color">
@@ -248,13 +286,14 @@
 				</div>
 				<div class="size">
 					<label for="h2size">Size:</label>
-					<input type="range" name="h2size" value="<?php isSetDef('h2size', '20'); ?>"  id="h2size" />
+					<input type="range" name="h2size" value="<?php isSetDef('h2size', '20'); ?>"  id="h2size" min="0" max="200" />
 					<span class="value"><?php isSetDef('h2size', '20'); ?></span>px
 				</div>
 				<div class="lh">
 					<label for="h2lh">Line Height:</label>
-					<input type="range" name="plh" value="<?php isSetDef('h2lh', '1.40'); ?>" id="h2lh" step="0.01" min="0" max="5" />
-					<span class="value"><?php isSetDef('h2lh', '1.40'); ?></span>
+					
+					<input type="range" name="h2lh" value="<?php isSetDef('h2lh', '1.41'); ?>" id="h2lh" step="0.01" min="0" max="5" />
+					<span class="value"><?php isSetDef('h2lh', '1.41'); ?></span>
 				</div>
 				<div class="color">
 					<label for="h2color">Color:</label>
@@ -280,8 +319,8 @@
 				</div>
 				<div class="lh">
 					<label for="plh">Line Height:</label>
-					<input type="range" name="plh" value="<?php isSetDef('plh', '1.40'); ?>" id="plh" step="0.01" min="0" max="5" />
-					<span class="value"><?php isSetDef('plh', '1.40'); ?></span>
+					<input type="range" name="plh" value="<?php isSetDef('plh', '1.41'); ?>" id="plh" step="0.01" min="0" max="5" />
+					<span class="value"><?php isSetDef('plh', '1.41'); ?></span>
 				</div>
 				<div class="color">
 					<label for="pcolor">Color:</label>

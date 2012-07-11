@@ -1,23 +1,51 @@
 $(document).ready(function () {
 	$('html').removeClass('no-js');
 
+	//allows the parsing of the URL parameters
+	$.extend({
+	  getUrlVars: function(){
+	    var vars = [], hash;
+	    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+	    for(var i = 0; i < hashes.length; i++)
+	    {
+	      hash = hashes[i].split('=');
+	      vars.push(hash[0]);
+	      vars[hash[0]] = hash[1];
+	    }
+	    return vars;
+	  },
+	  getUrlVar: function(name){
+	    return $.getUrlVars()[name];
+	  }
+	});
+
+
 	function config() {
 		//globals that are used throughout
 		targets = '#h1_select, #h2_select, #p_select';
 		defaultVarients = "#h1_variant, #h2_variant, #p_variant";
-		defaultFonts = new Array(
-			h1 = 'Ultra',
-			h2 = 'Trebuchet MS',
-			p = 'Trebuchet MS'
-		);
+		if(window.location.href.indexOf('?') !== -1){
+			var h1Name = $.getUrlVar('h1').replace(/\+/g,' ');
+			var h2Name = $.getUrlVar('h2').replace(/\+/g,' ');
+			var pName = $.getUrlVar('p').replace(/\+/g,' ');
+			defaultFonts = new Array(
+				h1 = h1Name,
+				h2 = h2Name,
+				p = pName
+				);			
+		} else {
+			defaultFonts = new Array(
+				h1 = 'Ultra',
+				h2 = 'Trebuchet MS',
+				p = 'Trebuchet MS'
+				);	
+		}
+		
 		delay = 2000;  //delay used throughout the interface
 	}
 
 	config();
-	// ajax call
-
 	
-
 	// font calls and option set up
 	function getFonts(fontList) {
 		//removing default variants from DOM when Google responds
@@ -44,7 +72,7 @@ $(document).ready(function () {
 		$('#h1_select option[selected], #h2_select option[selected], #p_select option[selected]').removeAttr('selected');
 		$('#h1_select option[value="'+defaultFonts[0]+'"]').attr("selected", "selected");
 		$('#h2_select option[value="'+defaultFonts[1]+'"]').attr("selected", "selected");
-		$('#p_select option[value="'+defaultFonts[1]+'"]').attr("selected", "selected");
+		$('#p_select option[value="'+defaultFonts[2]+'"]').attr("selected", "selected");
 		chosenAttach();
 		$('#h1_select_chzn .chzn-single').css('font-family', defaultFonts[0]);
 		$('#h2_select_chzn .chzn-single').css('font-family', defaultFonts[1]);
@@ -55,7 +83,7 @@ $(document).ready(function () {
 
 
 	// hiding submit button when JS is present
-	$('#submit').hide();
+	//$('#submit').hide();
 	
 	$('<div class="element"> <label for="control_option">Element:</label> <select name="control_option" id="control_option"> <option value="h1">Headline (H1)</option> <option value="h2">Subhead (H2)</option> <option value="p">Body text (p)</option> <option value="bg">Background</option> </select> </div>').prependTo('#controls');
 	
@@ -399,7 +427,21 @@ $(document).ready(function () {
 		}
 	});
 	
-	
+	//function for the submit button
+	$('#controls').submit(function(){
+		console.log('submit button was hit');
+		var values = $(this).serialize();
+		var key = 'R_3a7d26b08ca81030043112b029d05978';
+		$.ajax({
+		    url:"http://api.bit.ly/v3/shorten",
+			dataType:"jsonp",
+			data: "{'longUrl': http://font-combinator.loc/" + values + ", 'apiKey':" + key + ", 'login': chipcullen}",
+		    timeout : 4000,
+			success: console.log('yay')
+		});
+		
+		return false;
+	});
 });
 
 
