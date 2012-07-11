@@ -113,6 +113,17 @@
 		if(isset($_GET['h1size'])){ 
 			   	 echo 'font-size: ' . $_GET['h1size'] . 'px;';	 
 			    }
+				
+		if(isset($_GET['h1v'])){ 
+			   $variant = explode(' ', $_GET['h1v']);
+				 echo 'font-weight: ' . $variant[0] . '; ';
+					 if($variant[1] == 'italic'){
+						 echo 'font-style: italic; ';
+					 }
+			    }
+		
+		
+				
 		if(isset($_GET['h1lh'])){ 
 			   	 echo 'line-height: ' . $_GET['h1lh'] . ';';	 
 			    }
@@ -131,6 +142,14 @@
 		if(isset($_GET['h2size'])){ 
 	   	 echo 'font-size: ' . $_GET['h2size'] . 'px;';	 
 	    }
+		if(isset($_GET['h2v'])){ 
+			   $variant = explode(' ', $_GET['h2v']);
+				 echo 'font-weight: ' . $variant[0] . '; ';
+					 if($variant[1] == 'italic'){
+						 echo 'font-style: italic; ';
+					 }
+			    }
+		
 		if(isset($_GET['h2lh'])){ 
 			   	 echo 'line-height: ' . $_GET['h2lh'] . ';';	 
 			    }
@@ -152,6 +171,14 @@
 		if(isset($_GET['psize'])){ 
 	   	 echo 'font-size: ' . $_GET['psize'] . 'px;';	 
 	    }
+		if(isset($_GET['pv'])){ 
+			   $variant = explode(' ', $_GET['pv']);
+				 echo 'font-weight: ' . $variant[0] . '; ';
+					 if($variant[1] == 'italic'){
+						 echo 'font-style: italic; ';
+					 }
+			    }
+		
 		if(isset($_GET['plh'])){ 
 			   	 echo 'line-height: ' . $_GET['plh'] . ';';	 
 			    }

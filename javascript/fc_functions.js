@@ -429,18 +429,18 @@ $(document).ready(function () {
 	
 	//function for the submit button
 	$('#controls').submit(function(){
-		console.log('submit button was hit');
-		var values = $(this).serialize();
-		var key = 'R_3a7d26b08ca81030043112b029d05978';
-		$.ajax({
-		    url:"http://api.bit.ly/v3/shorten",
-			dataType:"jsonp",
-			data: "{'longUrl': http://font-combinator.loc/" + values + ", 'apiKey':" + key + ", 'login': chipcullen}",
-		    timeout : 4000,
-			success: console.log('yay')
-		});
-		
-		return false;
+		// console.log('submit button was hit');
+		// var values = $(this).serialize();
+		// var key = 'R_3a7d26b08ca81030043112b029d05978';
+		// $.ajax({
+		//     url:"http://api.bit.ly/v3/shorten",
+		// 	dataType:"jsonp",
+		// 	data: "{'longUrl': http://font-combinator.loc/" + values + ", 'apiKey':" + key + ", 'login': chipcullen}",
+		//     timeout : 4000,
+		// 	success: console.log('yay')
+		// });
+		// 
+		// return false;
 	});
 });
 
