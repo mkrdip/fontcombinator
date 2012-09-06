@@ -24,6 +24,8 @@ $(document).ready(function () {
 		//globals that are used throughout
 		targets = '#h1_select, #h2_select, #p_select';
 		defaultVarients = "#h1_variant, #h2_variant, #p_variant";
+		
+		//if the URL has parameters
 		if(window.location.href.indexOf('?') !== -1){
 			var h1Name = $.getUrlVar('h1').replace(/\+/g,' ');
 			var h2Name = $.getUrlVar('h2').replace(/\+/g,' ');
@@ -32,7 +34,8 @@ $(document).ready(function () {
 				h1 = h1Name,
 				h2 = h2Name,
 				p = pName
-				);			
+				);
+							
 		} else {
 			defaultFonts = new Array(
 				h1 = 'Ultra',
@@ -46,6 +49,48 @@ $(document).ready(function () {
 
 	config();
 	
+	
+	function parameterFonts(fontList) {
+		if(window.location.href.indexOf('?') !== -1){
+			var base = "http://fonts.googleapis.com/css?family=";
+			var h1fontName = $.getUrlVar('h1').replace('+',' ');
+			var h2fontName = $.getUrlVar('h2').replace('+',' ');
+			var pfontName = $.getUrlVar('p').replace('+',' ');
+			
+			for (var i=0; i < fontList.length; i++) {
+				var variants = fontList[i].variants;
+				console.log('yo');
+				if(fontList[i].family === h1fontName && fontList[i].family === h2fontName && fontList[i].family === pfontName && variants.length > 1) {	
+					console.log('all three fonts are the same, and it has more than one variant');
+					console.log(variants);
+				} else if(fontList[i].family === h1fontName && fontList[i].family === h2fontName && variants.length > 1) {
+					console.log('the headers have the same font, and it has more than one variant');
+					console.log(variants);
+				} else if(fontList[i].family === h1fontName && fontList[i].family === pfontName && variants.length > 1) {
+					console.log('the h1 and p have the same font has more than one variant');
+					console.log(variants);
+				} else if(fontList[i].family === h2fontName && fontList[i].family === pfontName && variants.length > 1) {
+					console.log('the h2 and p have the same font has more than one variant');
+					console.log(variants);
+				} 
+				
+				else if(fontList[i].family === h1fontName && variants.length > 1) {	
+					console.log('this h1 font has more than one variant');
+					console.log(variants);
+				} else if(fontList[i].family === h2fontName && variants.length > 1) {
+					console.log('this h2 font has more than one variant');
+					console.log(variants);
+				} else if(fontList[i].family === pfontName && variants.length > 1) {
+					console.log('this p font has more than one variant');
+					console.log(variants);
+				} 
+				
+				// if (fontList[i].family === h2fontName && variants.length > 1) {
+				// 	console.log('this h2 font has more than one variant');
+				// }
+			}
+		}
+	}
 	// font calls and option set up
 	function getFonts(fontList) {
 		//removing default variants from DOM when Google responds
@@ -54,6 +99,7 @@ $(document).ready(function () {
 		var defaultList = $('#h1_select').children();
 		$(targets).empty();
 		//$(targets).append('<option>*** Google Fonts ***</option>');
+		
 		for (var i=0, j = fontList.length; i < j; i+=1) {	
 			//this tool is for latin fonts only so far - sorry, Cyrillic and Greek
 			if(fontList[i].subsets.indexOf('latin') !== -1) {
@@ -63,6 +109,7 @@ $(document).ready(function () {
 				//this adds the stylesheet link to Google Web Fonts, but with only the font's name as a subset of characters, for performance
 				$(targets).append('<option value="'+ fontName +'">'+ fontName +'</option>');
 				$('<link rel="stylesheet" href="' + base + fontCallName +'&subset=latin&text=' + fontNameLetters +'"  type="text/css" />').prependTo('head');
+				
 			}
 		}
 				
@@ -397,8 +444,8 @@ $(document).ready(function () {
 		if (data.kind === "webfonts#webfontList") {
 			getFonts(data.items);
 			changeFonts(data.items);
+			parameterFonts(data.items);
 		} else {
-			
 			noLove();
 		}
 	}
@@ -442,6 +489,10 @@ $(document).ready(function () {
 		// 
 		// return false;
 	});
+	
+	if($.getUrlVar('h1v')){
+		console.log('the URL indicates a font variant');
+	}
 });
 
 

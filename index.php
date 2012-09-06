@@ -117,13 +117,10 @@
 		if(isset($_GET['h1v'])){ 
 			   $variant = explode(' ', $_GET['h1v']);
 				 echo 'font-weight: ' . $variant[0] . '; ';
-					 if($variant[1] == 'italic'){
-						 echo 'font-style: italic; ';
-					 }
-			    }
-		
-		
-				
+			 if($variant[1] == 'italic'){
+				 echo 'font-style: italic; ';
+			 }
+		    }				
 		if(isset($_GET['h1lh'])){ 
 			   	 echo 'line-height: ' . $_GET['h1lh'] . ';';	 
 			    }
@@ -161,8 +158,7 @@
 	}
 	
 	p {
-		font-size: 16px;
-		line-height: 1.40;
+
 		<?php
 		if(isset($_GET['p'])){ 
 		   	 echo 'font-family: ' . $_GET['p'] . ';';	 
@@ -285,7 +281,7 @@
 					<input type="range" name="h1size" value="<?php isSetDef('h1size', '30'); ?>"  id="h1size" min="0" max="200" />
 					<span class="value"><?php isSetDef('h1size', '30'); ?></span>px
 				</div>
-
+				
 				<div class="lh">
 					<label for="h1lh">Line Height:</label>
 					<input type="range" name="h1lh" value="<?php isSetDef('h1lh', '1.41'); ?>" id="h1lh" step="0.01" min="0" max="5" />
@@ -390,7 +386,7 @@
 	<script src="javascript/chosen/chosen.jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="javascript/colorpicker.js" type="text/javascript" charset="utf-8"></script>
 	
-	<script src="javascript/fc_functions-ck.js" type="text/javascript" charset="utf-8"></script>
+	<script src="javascript/fc_functions.js" type="text/javascript" charset="utf-8"></script>
 	<script src="javascript/html5slider.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script type="text/javascript">
