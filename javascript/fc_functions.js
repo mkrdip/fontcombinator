@@ -30,6 +30,7 @@ $(document).ready(function () {
 			var h1Name = $.getUrlVar('h1').replace(/\+/g,' ');
 			var h2Name = $.getUrlVar('h2').replace(/\+/g,' ');
 			var pName = $.getUrlVar('p').replace(/\+/g,' ');
+
 			defaultFonts = new Array(
 				h1 = h1Name,
 				h2 = h2Name,
@@ -49,6 +50,32 @@ $(document).ready(function () {
 
 	config();
 	
+	function variantSelectAttach(elem, variants, selectedVariants){
+		for (var i=0; i < elem.length; i++) {
+			$('<select class="variant_select" id="'+ elem[i] +'_variant" name="'+ elem[i] +'v"><select>').insertAfter('#' + elem[i] + '_select_chzn');
+			for (var j=0; j < variants.length; j++) {
+				//console.log(variants[j]);
+				var variantName = variants[j].replace('italic',' italic');
+				//special handling of variants results
+				if(variantName === 'regular') {
+					$('<option value="400">400</option>').appendTo('#' + elem[i] +'_variant');
+				} else if (variantName === '400') {
+					$('<option value="'+variantName+'">'+variantName+'</option>').appendTo('#' + elem[i] +'_variant');
+				} else if (variantName === ' italic') {
+					$('<option value="400 italic">400 italic</option>').appendTo('#' + elem[i] +'_variant');
+				} else {
+					$('<option value="'+variantName+'">'+variantName+'</option>').appendTo('#' + elem[i] +'_variant');
+				}
+			}
+			//based on the passed selected value, load the proper option as selected
+			$('#'+elem[i]+'_variant option').each(function(){
+				if($(this).val() === selectedVariants[i]){
+					$(this).attr('selected','selected');
+				}
+			});
+		};
+		$('.variant_select').chosen();
+	}
 	
 	function parameterFonts(fontList) {
 		if(window.location.href.indexOf('?') !== -1){
@@ -57,37 +84,63 @@ $(document).ready(function () {
 			var h2fontName = $.getUrlVar('h2').replace('+',' ');
 			var pfontName = $.getUrlVar('p').replace('+',' ');
 			
+			//checks to see if variant parameters exist, then set those as variables
+			if ($.getUrlVar('h1v')){
+				var h1VarName = $.getUrlVar('h1v').replace('+',' ');
+			} else {
+				var h1VarName = '400';
+			}
+			if($.getUrlVar('h2v')){
+				var h2VarName = $.getUrlVar('h2v').replace('+',' ');
+			} else {
+				var h2VarName = '400';
+			}
+			if($.getUrlVar('pv')){
+				var pVarName = $.getUrlVar('pv').replace('+',' ');
+			} else {
+				var pVarName = '400';
+			}
+
 			for (var i=0; i < fontList.length; i++) {
 				var variants = fontList[i].variants;
-				console.log('yo');
+				
+				//yes, this if statement is long, hairy, ugly and repetitious
 				if(fontList[i].family === h1fontName && fontList[i].family === h2fontName && fontList[i].family === pfontName && variants.length > 1) {	
-					console.log('all three fonts are the same, and it has more than one variant');
-					console.log(variants);
+					//console.log('all three fonts are the same, and it has more than one variant');
+					elem = new Array ('h1','h2','p');
+					selectedVariants = new Array (h1VarName, h2VarName, pVarName);
+					variantSelectAttach(elem, variants, selectedVariants);
 				} else if(fontList[i].family === h1fontName && fontList[i].family === h2fontName && variants.length > 1) {
-					console.log('the headers have the same font, and it has more than one variant');
-					console.log(variants);
+					//console.log('the headers have the same font, and it has more than one variant');
+					elem = new Array ('h1','h2');
+					selectedVariants = new Array (h1VarName, h2VarName);
+					variantSelectAttach(elem, variants, selectedVariants);
 				} else if(fontList[i].family === h1fontName && fontList[i].family === pfontName && variants.length > 1) {
-					console.log('the h1 and p have the same font has more than one variant');
-					console.log(variants);
+					//console.log('the h1 and p have the same font has more than one variant');
+					elem = new Array ('h1','p');
+					selectedVariants = new Array (h1VarName, pVarName);
+					variantSelectAttach(elem, variants, selectedVariants);
 				} else if(fontList[i].family === h2fontName && fontList[i].family === pfontName && variants.length > 1) {
-					console.log('the h2 and p have the same font has more than one variant');
-					console.log(variants);
-				} 
-				
-				else if(fontList[i].family === h1fontName && variants.length > 1) {	
-					console.log('this h1 font has more than one variant');
-					console.log(variants);
+					//console.log('the h2 and p have the same font has more than one variant');
+					elem = new Array ('h2','p');
+					selectedVariants = new Array (h2VarName, pVarName);
+					variantSelectAttach(elem, variants, selectedVariants);			
+				} else if(fontList[i].family === h1fontName && variants.length > 1) {	
+					//console.log('this h1 font has more than one variant');
+					elem = new Array ('h1');
+					selectedVariants = new Array (h1VarName);
+					variantSelectAttach(elem, variants, selectedVariants);
 				} else if(fontList[i].family === h2fontName && variants.length > 1) {
-					console.log('this h2 font has more than one variant');
-					console.log(variants);
+					//console.log('this h2 font has more than one variant');
+					elem = new Array ('h2');
+					selectedVariants = new Array (h2VarName);
+					variantSelectAttach(elem, variants, selectedVariants);
 				} else if(fontList[i].family === pfontName && variants.length > 1) {
-					console.log('this p font has more than one variant');
-					console.log(variants);
+					//console.log('this p font has more than one variant');
+					elem = new Array ('p');
+					selectedVariants = new Array (pVarName);
+					variantSelectAttach(elem, variants, selectedVariants);
 				} 
-				
-				// if (fontList[i].family === h2fontName && variants.length > 1) {
-				// 	console.log('this h2 font has more than one variant');
-				// }
 			}
 		}
 	}
@@ -98,8 +151,7 @@ $(document).ready(function () {
 		var base = "http://fonts.googleapis.com/css?family=";
 		var defaultList = $('#h1_select').children();
 		$(targets).empty();
-		//$(targets).append('<option>*** Google Fonts ***</option>');
-		
+			
 		for (var i=0, j = fontList.length; i < j; i+=1) {	
 			//this tool is for latin fonts only so far - sorry, Cyrillic and Greek
 			if(fontList[i].subsets.indexOf('latin') !== -1) {
@@ -233,7 +285,6 @@ $(document).ready(function () {
 	
 	
 	function chosenAttach() {
-		
 		$(targets).chosen();
 		$(defaultVarients).chosen();
 		$('.chzn-container').css('width','180px');
@@ -245,8 +296,6 @@ $(document).ready(function () {
 		$('#control_option_chzn').css('width','90%');
 		$('#control_option_chzn .chzn-drop').css('width', '100%');
 		$('#control_option_chzn .chzn-search').remove();
-		
-		
 	}
 	
 	//this function fires in the event Google Fonts is not available
@@ -490,9 +539,7 @@ $(document).ready(function () {
 		// return false;
 	});
 	
-	if($.getUrlVar('h1v')){
-		console.log('the URL indicates a font variant');
-	}
+
 });
 
 
