@@ -148,8 +148,6 @@ $(document).ready(function () {
 		$('.variant_select').chosen();
 		//formatting of the dropdown options when loaded
 		for (var i=0; i < elem.length; i++) {
-			console.log(defaultFonts[elem[i]]);
-			console.log(elem[i]);
 			$('#' + elem[i] + '_variant_chzn li, #' + elem[i] + '_variant_chzn span').each(function() {
 				$(this).css('font-family', defaultFonts[elem[i]]);
 				if($(this).html().indexOf('italic') === -1) {
@@ -180,9 +178,19 @@ $(document).ready(function () {
 				var fontName = fontList[i].family;
 				var fontCallName = fontList[i].family.replace(/\s+/g, '+');
 				var fontNameLetters = fontList[i].family.replace(/\s+/g, '');
-				//this adds the stylesheet link to Google Web Fonts, but with only the font's name as a subset of characters, for performance
 				$(targets).append('<option value="'+ fontName +'">'+ fontName +'</option>');
-				$('<link rel="stylesheet" href="' + base + fontCallName +'&subset=latin&text=' + fontNameLetters +'"  type="text/css" />').prependTo('head');
+				//this adds the stylesheet link to Google Web Fonts, but with only the font's name as a subset of characters, for performance
+				//but first, some special handling of fonts that don't have a 400 weight
+				if(fontName === 'Buda' || fontName === 'Open Sans Condensed'){
+					$('<link rel="stylesheet" href="' + base + fontCallName +':300&subset=latin&text=' + fontNameLetters +'"  type="text/css" />').prependTo('head');
+				} else if(fontName === 'Coda Caption' || fontName === 'Sniglet'){
+					$('<link rel="stylesheet" href="' + base + fontCallName +':800&subset=latin&text=' + fontNameLetters +'"  type="text/css" />').prependTo('head');
+				} else if(fontName === 'UnifrakturCook'){
+					$('<link rel="stylesheet" href="' + base + fontCallName +':700&subset=latin&text=' + fontNameLetters +'"  type="text/css" />').prependTo('head');
+				} else {
+					$('<link rel="stylesheet" href="' + base + fontCallName +'&subset=latin&text=' + fontNameLetters +'"  type="text/css" />').prependTo('head');
+				}
+				
 				
 			}
 		}
