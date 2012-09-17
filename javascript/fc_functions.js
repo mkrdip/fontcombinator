@@ -31,55 +31,30 @@ $(document).ready(function () {
 			var h2Name = $.getUrlVar('h2').replace(/\+/g,' ');
 			var pName = $.getUrlVar('p').replace(/\+/g,' ');
 
-			defaultFonts = new Array(
-				h1 = h1Name,
-				h2 = h2Name,
-				p = pName
-				);
+			defaultFonts = [];
+			
+			defaultFonts["h1"] = h1Name;
+			defaultFonts["h2"] = h2Name;
+			defaultFonts["p"] = pName;
 							
 		} else {
-			defaultFonts = new Array(
-				h1 = 'Ultra',
-				h2 = 'Trebuchet MS',
-				p = 'Trebuchet MS'
-				);	
+			
+			defaultFonts = [];
+			
+			defaultFonts["h1"] = 'Ultra';
+			defaultFonts["h2"] = 'Trebuchet MS';
+			defaultFonts["p"] = 'Trebuchet MS';
 		}
-		
+
 		delay = 2000;  //delay used throughout the interface
 	}
 
 	config();
 	
-	function variantSelectAttach(elem, variants, selectedVariants){
-		for (var i=0; i < elem.length; i++) {
-			$('<select class="variant_select" id="'+ elem[i] +'_variant" name="'+ elem[i] +'v"><select>').insertAfter('#' + elem[i] + '_select_chzn');
-			for (var j=0; j < variants.length; j++) {
-				//console.log(variants[j]);
-				var variantName = variants[j].replace('italic',' italic');
-				//special handling of variants results
-				if(variantName === 'regular') {
-					$('<option value="400">400</option>').appendTo('#' + elem[i] +'_variant');
-				} else if (variantName === '400') {
-					$('<option value="'+variantName+'">'+variantName+'</option>').appendTo('#' + elem[i] +'_variant');
-				} else if (variantName === ' italic') {
-					$('<option value="400 italic">400 italic</option>').appendTo('#' + elem[i] +'_variant');
-				} else {
-					$('<option value="'+variantName+'">'+variantName+'</option>').appendTo('#' + elem[i] +'_variant');
-				}
-			}
-			//based on the passed selected value, load the proper option as selected
-			$('#'+elem[i]+'_variant option').each(function(){
-				if($(this).val() === selectedVariants[i]){
-					$(this).attr('selected','selected');
-				}
-			});
-		};
-		$('.variant_select').chosen();
-	}
-	
+
 	function parameterFonts(fontList) {
 		if(window.location.href.indexOf('?') !== -1){
-			var base = "http://fonts.googleapis.com/css?family=";
+			
 			var h1fontName = $.getUrlVar('h1').replace('+',' ');
 			var h2fontName = $.getUrlVar('h2').replace('+',' ');
 			var pfontName = $.getUrlVar('p').replace('+',' ');
@@ -144,6 +119,53 @@ $(document).ready(function () {
 			}
 		}
 	}
+	
+	function variantSelectAttach(elem, variants, selectedVariants){
+		for (var i=0; i < elem.length; i++) {
+			//console.log(elem[i]);
+			$('<select class="variant_select" id="'+ elem[i] +'_variant" name="'+ elem[i] +'v"><select>').insertAfter('#' + elem[i] + '_select_chzn');
+			for (var j=0; j < variants.length; j++) {
+				//console.log(variants[j]);
+				var variantName = variants[j].replace('italic',' italic');
+				//special handling of variants results
+				if(variantName === 'regular') {
+					$('<option value="400">400</option>').appendTo('#' + elem[i] +'_variant');
+				} else if (variantName === '400') {
+					$('<option value="'+variantName+'">'+variantName+'</option>').appendTo('#' + elem[i] +'_variant');
+				} else if (variantName === ' italic') {
+					$('<option value="400 italic">400 italic</option>').appendTo('#' + elem[i] +'_variant');
+				} else {
+					$('<option value="'+variantName+'">'+variantName+'</option>').appendTo('#' + elem[i] +'_variant');
+				}
+			}
+			//based on the passed selected value, load the proper option as selected
+			$('#'+elem[i]+'_variant option').each(function(){
+				if($(this).val() === selectedVariants[i]){
+					$(this).attr('selected','selected');
+				}
+			});
+		};
+		$('.variant_select').chosen();
+		//formatting of the dropdown options when loaded
+		for (var i=0; i < elem.length; i++) {
+			console.log(defaultFonts[elem[i]]);
+			console.log(elem[i]);
+			$('#' + elem[i] + '_variant_chzn li, #' + elem[i] + '_variant_chzn span').each(function() {
+				$(this).css('font-family', defaultFonts[elem[i]]);
+				if($(this).html().indexOf('italic') === -1) {
+					$(this).css('font-weight', $(this).html());
+				} else {
+					$(this).css('font-weight', $(this).html().split(' italic')[0]).css('font-style','italic');
+				}
+			});
+			$('#' + elem[i] + '_variant_chzn').css({'font-family':defaultFonts[elem[i]], 'min-width':'110px'});
+			$('#' + elem[i] + '_variant_chzn div.chzn-drop').css('width', '105px');
+			$('#' + elem[i] + '_variant_chzn').find('input').css('width', '53px');
+			
+		}
+	}
+	
+	
 	// font calls and option set up
 	function getFonts(fontList) {
 		//removing default variants from DOM when Google responds
@@ -169,13 +191,13 @@ $(document).ready(function () {
 		$(targets).append('<option>* System Fonts *</option>');
 		$(targets).append(defaultList);
 		$('#h1_select option[selected], #h2_select option[selected], #p_select option[selected]').removeAttr('selected');
-		$('#h1_select option[value="'+defaultFonts[0]+'"]').attr("selected", "selected");
-		$('#h2_select option[value="'+defaultFonts[1]+'"]').attr("selected", "selected");
-		$('#p_select option[value="'+defaultFonts[2]+'"]').attr("selected", "selected");
+		$('#h1_select option[value="'+defaultFonts["h1"]+'"]').attr("selected", "selected");
+		$('#h2_select option[value="'+defaultFonts["h2"]+'"]').attr("selected", "selected");
+		$('#p_select option[value="'+defaultFonts["p"]+'"]').attr("selected", "selected");
 		chosenAttach();
-		$('#h1_select_chzn .chzn-single').css('font-family', defaultFonts[0]);
-		$('#h2_select_chzn .chzn-single').css('font-family', defaultFonts[1]);
-		$('#p_select_chzn .chzn-single').css('font-family', defaultFonts[2]);
+		$('#h1_select_chzn .chzn-single').css('font-family', defaultFonts["h1"]);
+		$('#h2_select_chzn .chzn-single').css('font-family', defaultFonts["h2"]);
+		$('#p_select_chzn .chzn-single').css('font-family', defaultFonts["p"]);
 				
 	}
 	
@@ -262,8 +284,8 @@ $(document).ready(function () {
 				$("#" + elem + "_select_chzn .chzn-single").css('font-family', fontName);
 				$('<select class="variant_select" id="'+ elem +'_variant" name="'+ elem +'v"><option value="400" selected>400</option><option value="400 italic">400 italic</option><option value="bold">Bold</option><option value="bold italic">Bold italic</option><select>').insertAfter('#' +elem + '_select_chzn');
 				$('#' + elem + '_variant').chosen();
-				$('#' + elem + '_variant_chzn').css({'font-family':fontName, 'min-width':'90px'});
-				$('#' + elem + '_variant_chzn div.chzn-drop').css('width', '88px');
+				$('#' + elem + '_variant_chzn').css({'font-family':fontName, 'min-width':'110px'});
+				$('#' + elem + '_variant_chzn div.chzn-drop').css('width', '105px');
 				$('#' + elem + '_variant_chzn').find('input').css('width', '53px');
 
 				$('#' + elem + '_variant_chzn li').each(function() {
