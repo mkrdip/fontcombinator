@@ -209,10 +209,62 @@ $(document).ready(function () {
 				
 	}
 	
+	//bit_url function
+	function bit_url(url){
+		console.log('bit_url function is firing');
+		var url=url;
+		console.log(url);
+		var username="o_215vaovdst"; // bit.ly username
+		var key="R_3a7d26b08ca81030043112b029d05978";
+		$.ajax({
+			url:"http://api.bit.ly/v3/shorten",
+			data:{longUrl:url,apiKey:key,login:username},
+			dataType:"jsonp",
+			success:function(v)	{
+				var bit_url=v.data.url;
+				$('<p>Or use the shortened URL:</p><input type="text" id="share_text_short" />').insertAfter('#share_text');
+				$('#share_text_short').val(bit_url);
+			}
+		});
+	}
+
+	// modifying the submit button when JS is present
+	$('#submit').hide();
+	$('<li><a href="#share" id="share_link">Share!</a></li>').prependTo('#panel_nav');
+	console.log('yo');
+	$('<section id="share" class="panel"><h1>Share Your Combination</h1><p>Copy out the URL below to send to someone else:</p><textarea id="share_text"></textarea></section>').insertAfter('#change-log');
+	$('').insertAfter('#submit');
+	$('#share_link').on('click', function(){
+		event.preventDefault();
+		var base = "http://font-combinator.com/?"
+		var str = $('#controls').serialize();
+		var url = base + str;
+		$('#share_text').html(url);
+		bit_url(url);
+	});
+	
+	$('#share_text, #share_text_short').on('click',function(){
+		$(this).selectText();
+	});
+	
+	jQuery.fn.selectText = function(){
+	    var doc = document;
+	    var element = this[0];
+	    console.log(this, element);
+	    if (doc.body.createTextRange) {
+	        var range = document.body.createTextRange();
+	        range.moveToElementText(element);
+	        range.select();
+	    } else if (window.getSelection) {
+	        var selection = window.getSelection();        
+	        var range = document.createRange();
+	        range.selectNodeContents(element);
+	        selection.removeAllRanges();
+	        selection.addRange(range);
+	    }
+	};
 
 
-	// hiding submit button when JS is present
-	//$('#submit').hide();
 	
 	$('<div class="element"> <label for="control_option">Element:</label> <select name="control_option" id="control_option"> <option value="h1">Headline (H1)</option> <option value="h2">Subhead (H2)</option> <option value="p">Body text (p)</option> <option value="bg">Background</option> </select> </div>').prependTo('#controls');
 	
@@ -553,23 +605,6 @@ $(document).ready(function () {
 		}
 	});
 	
-	//function for the submit button
-	$('#controls').submit(function(){
-		// console.log('submit button was hit');
-		// var values = $(this).serialize();
-		// var key = 'R_3a7d26b08ca81030043112b029d05978';
-		// $.ajax({
-		//     url:"http://api.bit.ly/v3/shorten",
-		// 	dataType:"jsonp",
-		// 	data: "{'longUrl': http://font-combinator.loc/" + values + ", 'apiKey':" + key + ", 'login': chipcullen}",
-		//     timeout : 4000,
-		// 	success: console.log('yay')
-		// });
-		// 
-		// return false;
-	});
-	
-
 });
 
 

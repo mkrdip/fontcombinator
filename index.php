@@ -88,10 +88,10 @@
 	
 	<link rel="stylesheet" href="css/colorpicker.css" type="text/css" media="screen" title="no title" />
 	
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
 	<script>
 	if (typeof jQuery == 'undefined') {
-	document.write('<script src="', 'javascript/jquery-1.7.1.min.js', '" type="text/JavaScript"><\/script>');
+	document.write('<script src="', 'javascript/jquery-1.8.2.min.js', '" type="text/JavaScript"><\/script>');
 	}
 	</script>
 	
@@ -356,7 +356,7 @@
 				<input type="text" name="bgcolor" value="<?php if(isset($_GET['bgcolor'])) {echo $_GET['bgcolor']; } ?>" placeholder="FFFFFF" id="bgcolor" />
 			</section>	
 		
-			<input type="submit"  id="submit" />
+			<input type="submit"  id="submit" value="Submit"/>
 
 			
 		</form>
