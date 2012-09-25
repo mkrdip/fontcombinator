@@ -211,7 +211,6 @@ $(document).ready(function () {
 	
 	//bit_url function
 	function bit_url(url){
-		console.log('bit_url function is firing');
 		var url=url;
 		console.log(url);
 		var username="o_215vaovdst"; // bit.ly username
@@ -222,20 +221,27 @@ $(document).ready(function () {
 			dataType:"jsonp",
 			success:function(v)	{
 				var bit_url=v.data.url;
-				$('<p>Or use the shortened URL:</p><input type="text" id="share_text_short" />').insertAfter('#share_text');
+				$('<p id="share_text_short_intro">Or use the shortened URL:</p><input type="text" id="share_text_short" />').insertAfter('#share_text');
 				$('#share_text_short').val(bit_url);
+				focusShareTextShort()
 			}
 		});
 	}
 
+	function focusShareTextShort(){
+		$('#share_text_short').on('click',function(){
+			$(this).select();
+		});
+	}
 	// modifying the submit button when JS is present
 	$('#submit').hide();
 	$('<li><a href="#share" id="share_link">Share!</a></li>').prependTo('#panel_nav');
-	console.log('yo');
+
 	$('<section id="share" class="panel"><h1>Share Your Combination</h1><p>Copy out the URL below to send to someone else:</p><textarea id="share_text"></textarea></section>').insertAfter('#change-log');
-	$('').insertAfter('#submit');
+	
 	$('#share_link').on('click', function(){
 		event.preventDefault();
+		$('#share_text_short, #share_text_short_intro').remove();
 		var base = "http://font-combinator.com/?"
 		var str = $('#controls').serialize();
 		var url = base + str;
@@ -243,10 +249,10 @@ $(document).ready(function () {
 		bit_url(url);
 	});
 	
-	$('#share_text, #share_text_short').on('click',function(){
+	$('#share_text').on('click',function(){
 		$(this).selectText();
 	});
-	
+
 	jQuery.fn.selectText = function(){
 	    var doc = document;
 	    var element = this[0];

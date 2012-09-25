@@ -242,9 +242,13 @@
 		<p><a href="http://www.google.com/webfonts" title="Google Web Fonts" rel="external">Google Web Fonts</a> - This tool works with the Google Fonts collection, as well as a few selected System fonts. In particular, I&rsquo;ve made use of the <a href="https://developers.google.com/webfonts/docs/developer_api" rel="external">Google Web Fonts Developer API</a> to make updates automated.</p>
 		<p><a href="http://jquery.com/" title="jQuery: The Write Less, Do More, JavaScript Library" rel="external">jQuery</a> - this site heart and soul is written in jQuery. It would not have seen the light of day if it were not for this JavaScript library.</p>
 		<p><a href="http://harvesthq.github.com/chosen/" title="Chosen - a JavaScript plugin for jQuery and Prototype - makes select boxes better" rel="external">The Chosen jQuery plugin</a> - this nifty plugin takes very long select elements and transforms them into much more useful lists. This is what I use on the font name and variant list drop downs.</p>
+		<p>This is the <a href="http://www.eyecon.ro/colorpicker/" title="ColorPicker - jQuery plugin" rel="external">jQuery Color Picker</a> that I use in the controls.</p>
 	</section>
 	<section id="change-log" class="panel">
 		<h1>Change Log</h1>
+		<h2>Version 1.1 - September 24th, 2012</h2>
+		<p><strong>Sharing!</strong> Now you can share your combination with others!</p>
+		
 		<h2>Version 1.0.1 - April 12th, 2012</h2>
 		<p>Added some requested functionality - if you click on an editable element, the relevent type control becomes active.</p>
 		<p>Also added a subtle outline on hover of editable text in the hope that it makes it more obvious that text is editable.</p>
@@ -386,7 +390,10 @@
 	<script src="javascript/chosen/chosen.jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="javascript/colorpicker.js" type="text/javascript" charset="utf-8"></script>
 	
-	<script src="javascript/fc_functions.js" type="text/javascript" charset="utf-8"></script>
+	<script src="javascript/fc_functions-ck.js" type="text/javascript" charset="utf-8"></script>
+	<!-- Want to see the unminified javascript? check javascript/fc_functions.js -->
+	
+	
 	<script src="javascript/html5slider.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script type="text/javascript">
