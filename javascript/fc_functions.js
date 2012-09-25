@@ -235,12 +235,16 @@ $(document).ready(function () {
 	}
 	// modifying the submit button when JS is present
 	$('#submit').hide();
+	
+	//attaching the share link via JS, 'cause it only works with JS
 	$('<li><a href="#share" id="share_link">Share!</a></li>').prependTo('#panel_nav');
-
+	
+	//adding a sharing panel
 	$('<section id="share" class="panel"><h1>Share Your Combination</h1><p>Copy out the URL below to send to someone else:</p><textarea id="share_text"></textarea></section>').insertAfter('#change-log');
 	
 	$('#share_link').on('click', function(){
 		event.preventDefault();
+		_gaq.push(['_trackEvent','The share tab was clicked']);
 		$('#share_text_short, #share_text_short_intro').remove();
 		var base = "http://font-combinator.com/?"
 		var str = $('#controls').serialize();
