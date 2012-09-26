@@ -212,7 +212,7 @@ $(document).ready(function () {
 	//bit_url function
 	function bit_url(url){
 		var url=url;
-		console.log(url);
+		
 		var username="o_215vaovdst"; // bit.ly username
 		var key="R_3a7d26b08ca81030043112b029d05978";
 		$.ajax({
@@ -223,7 +223,7 @@ $(document).ready(function () {
 				var bit_url=v.data.url;
 				$('<p id="share_text_short_intro">Or use the shortened URL:</p><input type="text" id="share_text_short" />').insertAfter('#share_text');
 				$('#share_text_short').val(bit_url);
-				focusShareTextShort()
+				focusShareTextShort();
 			}
 		});
 	}
@@ -243,24 +243,24 @@ $(document).ready(function () {
 	$('<section id="share" class="panel"><h1>Share Your Combination</h1><p>Copy out the URL below to send to someone else:</p><textarea id="share_text"></textarea></section>').insertAfter('#change-log');
 	
 	$('#share_link').on('click', function(){
-		event.preventDefault();
-		_gaq.push(['_trackEvent','The share tab was clicked']);
+		_gaq.push(['_trackEvent','Share Tab','Clicked']);
 		$('#share_text_short, #share_text_short_intro').remove();
 		var base = "http://font-combinator.com/?"
 		var str = $('#controls').serialize();
 		var url = base + str;
 		$('#share_text').html(url);
 		bit_url(url);
+		return false;
 	});
 	
-	$('#share_text').on('click',function(){
-		$(this).selectText();
-	});
+	// $('#share_text').on('click',function(){
+	// 	$(this).selectText();
+	// });
 
 	jQuery.fn.selectText = function(){
 	    var doc = document;
 	    var element = this[0];
-	    console.log(this, element);
+	    
 	    if (doc.body.createTextRange) {
 	        var range = document.body.createTextRange();
 	        range.moveToElementText(element);
