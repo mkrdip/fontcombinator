@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <head>
+        <title>test case</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ultra" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Fenix&text=clickm" type="text/css" />
+
+    <style>
+        h1 {
+          font-family: Ultra;
+        }
+        #test {
+            font-family: Fenix;
+            font-size: 2em;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            $('#test').click(function(){
+                console.log('i been clicked');
+                //$('head').append('<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Fenix" type="text/css" />');
+                $('h1').css('font-family','Fenix');
+                $('head link').each(function(){
+                   console.log($(this).attr('href').split('?family=')[1]);
+                   if($(this).attr('href').split('?family=')[1].indexOf('Fenix') != -1){
+                     console.log('there is a fenix');
+                     var fontAll = $(this).attr('href').split('&text=')[0];
+                     $(this).attr('href', fontAll);
+                   }
+                });
+            });
+        });
+    </script>
+    </head>
+    <body>
+        <h1>This is an h1 that is set in a web font using lots of letters.</h1>
+        <a href="#" id="test">click me</a>
+    </body>
+</html>

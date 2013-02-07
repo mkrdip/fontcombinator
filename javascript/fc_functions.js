@@ -24,7 +24,7 @@ $(document).ready(function () {
 		//globals that are used throughout
 		targets = '#h1_select, #h2_select, #p_select';
 		defaultVarients = "#h1_variant, #h2_variant, #p_variant";
-		
+
 		//if the URL has parameters
 		if(window.location.href.indexOf('?') !== -1){
 			var h1Name = $.getUrlVar('h1').replace(/\+/g,' ');
@@ -32,15 +32,15 @@ $(document).ready(function () {
 			var pName = $.getUrlVar('p').replace(/\+/g,' ');
 
 			defaultFonts = [];
-			
+
 			defaultFonts["h1"] = h1Name;
 			defaultFonts["h2"] = h2Name;
 			defaultFonts["p"] = pName;
-							
+
 		} else {
-			
+
 			defaultFonts = [];
-			
+
 			defaultFonts["h1"] = 'Ultra';
 			defaultFonts["h2"] = 'Trebuchet MS';
 			defaultFonts["p"] = 'Trebuchet MS';
@@ -50,15 +50,15 @@ $(document).ready(function () {
 	}
 
 	config();
-	
+
 
 	function parameterFonts(fontList) {
 		if(window.location.href.indexOf('?') !== -1){
-			
+
 			var h1fontName = $.getUrlVar('h1').replace('+',' ');
 			var h2fontName = $.getUrlVar('h2').replace('+',' ');
 			var pfontName = $.getUrlVar('p').replace('+',' ');
-			
+
 			//checks to see if variant parameters exist, then set those as variables
 			if ($.getUrlVar('h1v')){
 				var h1VarName = $.getUrlVar('h1v').replace('+',' ');
@@ -78,9 +78,9 @@ $(document).ready(function () {
 
 			for (var i=0; i < fontList.length; i++) {
 				var variants = fontList[i].variants;
-				
+
 				//yes, this if statement is long, hairy, ugly and repetitious
-				if(fontList[i].family === h1fontName && fontList[i].family === h2fontName && fontList[i].family === pfontName && variants.length > 1) {	
+				if(fontList[i].family === h1fontName && fontList[i].family === h2fontName && fontList[i].family === pfontName && variants.length > 1) {
 					//console.log('all three fonts are the same, and it has more than one variant');
 					elem = new Array ('h1','h2','p');
 					selectedVariants = new Array (h1VarName, h2VarName, pVarName);
@@ -99,8 +99,8 @@ $(document).ready(function () {
 					//console.log('the h2 and p have the same font has more than one variant');
 					elem = new Array ('h2','p');
 					selectedVariants = new Array (h2VarName, pVarName);
-					variantSelectAttach(elem, variants, selectedVariants);			
-				} else if(fontList[i].family === h1fontName && variants.length > 1) {	
+					variantSelectAttach(elem, variants, selectedVariants);
+				} else if(fontList[i].family === h1fontName && variants.length > 1) {
 					//console.log('this h1 font has more than one variant');
 					elem = new Array ('h1');
 					selectedVariants = new Array (h1VarName);
@@ -115,11 +115,11 @@ $(document).ready(function () {
 					elem = new Array ('p');
 					selectedVariants = new Array (pVarName);
 					variantSelectAttach(elem, variants, selectedVariants);
-				} 
+				}
 			}
 		}
 	}
-	
+
 	function variantSelectAttach(elem, variants, selectedVariants){
 		for (var i=0; i < elem.length; i++) {
 			//console.log(elem[i]);
@@ -159,11 +159,11 @@ $(document).ready(function () {
 			$('#' + elem[i] + '_variant_chzn').css({'font-family':defaultFonts[elem[i]], 'min-width':'110px'});
 			$('#' + elem[i] + '_variant_chzn div.chzn-drop').css('width', '105px');
 			$('#' + elem[i] + '_variant_chzn').find('input').css('width', '53px');
-			
+
 		}
 	}
-	
-	
+
+
 	// font calls and option set up
 	function getFonts(fontList) {
 		//removing default variants from DOM when Google responds
@@ -171,8 +171,8 @@ $(document).ready(function () {
 		var base = "http://fonts.googleapis.com/css?family=";
 		var defaultList = $('#h1_select').children();
 		$(targets).empty();
-			
-		for (var i=0, j = fontList.length; i < j; i+=1) {	
+
+		for (var i=0, j = fontList.length; i < j; i+=1) {
 			//this tool is for latin fonts only so far - sorry, Cyrillic and Greek
 			if(fontList[i].subsets.indexOf('latin') !== -1) {
 				var fontName = fontList[i].family;
@@ -187,14 +187,16 @@ $(document).ready(function () {
 					$('<link rel="stylesheet" href="' + base + fontCallName +':800&subset=latin&text=' + fontNameLetters +'"  type="text/css" />').prependTo('head');
 				} else if(fontName === 'UnifrakturCook'){
 					$('<link rel="stylesheet" href="' + base + fontCallName +':700&subset=latin&text=' + fontNameLetters +'"  type="text/css" />').prependTo('head');
+				} else if(fontName === 'Molle'){
+					$('<link rel="stylesheet" href="' + base + fontCallName +':400italic&subset=latin&text=' + fontNameLetters +'"  type="text/css" />').prependTo('head');
 				} else {
 					$('<link rel="stylesheet" href="' + base + fontCallName +'&subset=latin&text=' + fontNameLetters +'"  type="text/css" />').prependTo('head');
 				}
-				
-				
+
+
 			}
 		}
-				
+
 		//readding the default font list so it appears at the end of the <select> and everything is ordered properly
 		$(targets).append('<option>* System Fonts *</option>');
 		$(targets).append(defaultList);
@@ -206,13 +208,13 @@ $(document).ready(function () {
 		$('#h1_select_chzn .chzn-single').css('font-family', defaultFonts["h1"]);
 		$('#h2_select_chzn .chzn-single').css('font-family', defaultFonts["h2"]);
 		$('#p_select_chzn .chzn-single').css('font-family', defaultFonts["p"]);
-				
+
 	}
-	
+
 	//bit_url function
 	function bit_url(url){
 		var url=url;
-		
+
 		var username="o_215vaovdst"; // bit.ly username
 		var key="R_3a7d26b08ca81030043112b029d05978";
 		$.ajax({
@@ -235,13 +237,13 @@ $(document).ready(function () {
 	}
 	// modifying the submit button when JS is present
 	$('#submit').hide();
-	
+
 	//attaching the share link via JS, 'cause it only works with JS
 	$('<li><a href="#share" id="share_link">Share!</a></li>').prependTo('#panel_nav');
-	
+
 	//adding a sharing panel
 	$('<section id="share" class="panel"><h1>Share Your Combination</h1><p>Copy out the URL below to send to someone else:</p><textarea id="share_text"></textarea></section>').insertAfter('#change-log');
-	
+
 	$('#share_link').on('click', function(){
 		_gaq.push(['_trackEvent','Share Tab','Clicked']);
 		$('#share_text_short, #share_text_short_intro').remove();
@@ -252,7 +254,7 @@ $(document).ready(function () {
 		bit_url(url);
 		return false;
 	});
-	
+
 	// $('#share_text').on('click',function(){
 	// 	$(this).selectText();
 	// });
@@ -260,13 +262,13 @@ $(document).ready(function () {
 	jQuery.fn.selectText = function(){
 	    var doc = document;
 	    var element = this[0];
-	    
+
 	    if (doc.body.createTextRange) {
 	        var range = document.body.createTextRange();
 	        range.moveToElementText(element);
 	        range.select();
 	    } else if (window.getSelection) {
-	        var selection = window.getSelection();        
+	        var selection = window.getSelection();
 	        var range = document.createRange();
 	        range.selectNodeContents(element);
 	        selection.removeAllRanges();
@@ -275,33 +277,39 @@ $(document).ready(function () {
 	};
 
 
-	
+
 	$('<div class="element"> <label for="control_option">Element:</label> <select name="control_option" id="control_option"> <option value="h1">Headline (H1)</option> <option value="h2">Subhead (H2)</option> <option value="p">Body text (p)</option> <option value="bg">Background</option> </select> </div>').prependTo('#controls');
-	
+
 	function changeFonts(fontList) {
-		
+
 		$(targets).change(function() {
 			var base = "http://fonts.googleapis.com/css?family=";
 			var fontName = $(this).val();
-			
+
 			//handy way to target the right element based on which select changed
 			var elem = $(this).attr('id').split('_select')[0];
-			
+
 			$(elem).css({'font-style':'normal','font-weight':'400'});
 			//gets rid of any variant drop down added previously
 			$(this).siblings('.variant_select').remove();
 			$('#'+ elem + '_variant_chzn').remove();
 			_gaq.push(['_trackEvent','Font Choice', elem, fontName]);
-			
+
 			//this for loop adding variants based on which font is selected
 			for (var i=0; i < fontList.length; i++) {
 				var variants = fontList[i].variants;
-				
+				var fontNameLoad = fontName.replace(/\s+/g, '+');
 				//checking to see if the selected font has more than one variant
 				if(fontList[i].family === fontName && variants.length > 1) {
 					var variantCall = variants.toString();
 					//adding stylesheet call with all variants
-					$('<link rel="stylesheet" href="' + base + fontName.replace(/\s+/g, '+') +':' + variantCall + '&subset=latin" type="text/css" />').prependTo('head');
+					$('head link').each(function(){
+						var thisHref = $(this).attr('href');
+	                	if(thisHref.indexOf(fontNameLoad) !== -1 && thisHref.split('&subset')[0].split('?family=')[1] === fontNameLoad){
+	                     	$(this).attr('href', base + fontNameLoad + ':' + variantCall + '&subset=latin');
+						}
+	                });
+					//$('<link rel="stylesheet" href="' + base + fontName.replace(/\s+/g, '+') +':' + variantCall + '&subset=latin" type="text/css" />').prependTo('head');
 					//create a drop down menu
 					$('<select class="variant_select" id="'+ elem +'_variant" name="'+ elem +'v"><select>').insertAfter('#' +elem + '_select_chzn');
 					for (var j=0; j < variants.length; j++) {
@@ -316,16 +324,16 @@ $(document).ready(function () {
 						} else {
 							$('<option value="'+variantName+'">'+variantName+'</option>').appendTo('#' + elem +'_variant');
 						}
-						
+
 					}
-					
+
 					$(elem).css('font-family', fontName).css('font-weight', '400');
 					//get the chosen drop down to take on the css style
 					$("#" + elem + "_select_chzn .chzn-single").css('font-family', fontName);
-					
+
 					$('.variant_select').chosen();
 
-					
+
 					$('#' + elem + '_variant_chzn li').each(function() {
 						$(this).css('font-family', fontName);
 						if($(this).html().indexOf('italic') === -1) {
@@ -337,18 +345,25 @@ $(document).ready(function () {
 					$('#' + elem + '_variant_chzn').css({'font-family':fontName, 'min-width':'90px'});
 					$('#' + elem + '_variant_chzn div.chzn-drop').css('width', '88px');
 					$('#' + elem + '_variant_chzn').find('input').css('width', '53px');
-					
+
 					return false;  //had to throw this in to stop infinite loop
 				} else if(fontList[i].family === fontName) {
 					//do something else when there is only one variant
 					//adding plain stylesheet call w/ no variant addendum
 					//$("<link rel='stylesheet' href='" + base + fontName.replace(/\s+/g, '+') +"&subset=latin' type='text/css'/>").prependTo('head');
-					$('head style').after("<link rel='stylesheet' href='" + base + fontName.replace(/\s+/g, '+') +"&subset=latin' type='text/css'/>")
+					$('head link').each(function(){
+						var thisHref = $(this).attr('href');
+	                   if(thisHref.indexOf(fontNameLoad) !== -1 && thisHref.split('&subset')[0].split('?family=')[1] === fontNameLoad){
+	                     //console.log('there is a match and it is ' + fontNameLoad);
+	                     $(this).attr('href', $(this).attr('href').split('&text=')[0]);
+	                   }
+	                });
+					//$('head style').after("<link rel='stylesheet' href='" + base + fontName.replace(/\s+/g, '+') +"&subset=latin' type='text/css' />");
 					//get the chosen drop down to take on the css style
 					$("#" + elem + "_select_chzn .chzn-single").css('font-family', fontName);
 				}
 			} //end of variant for loop
-			
+
 			//system fonts
 			if(fontName === 'Arial'|| fontName === 'Garamond' || fontName === 'Georgia'|| fontName === 'Helvetica' || fontName === 'Lucida Grande'|| fontName === 'Palatino' || fontName === 'Tahoma'|| fontName === 'Times New Roman' || fontName === 'Trebuchet MS'|| fontName === 'Verdana') {
 				$("#" + elem + "_select_chzn .chzn-single").css('font-family', fontName);
@@ -367,15 +382,15 @@ $(document).ready(function () {
 				}
 				});
 			}
-			
+
 			//actually, you know, change fonts
 			$(elem).css('font-family', fontName);
 
 		});// end of targets change
 		chosenAttach();
 	}  //end of function changeFonts
-	
-	
+
+
 	function chosenAttach() {
 		$(targets).chosen();
 		$(defaultVarients).chosen();
@@ -389,21 +404,21 @@ $(document).ready(function () {
 		$('#control_option_chzn .chzn-drop').css('width', '100%');
 		$('#control_option_chzn .chzn-search').remove();
 	}
-	
+
 	//this function fires in the event Google Fonts is not available
 	function defaultFontChange() {
-		
+
 		$(targets).change(function() {
 			var fontName = $(this).val();
-			
+
 			//handy way to target the right element based on which select changed
 			var elem = $(this).attr('id').split('_select')[0];
 			$(elem).css('font-family', fontName);
-			
+
 		});
-		chosenAttach();		
+		chosenAttach();
 	}
-	
+
 	function variantChange() {
 		$('body').on('change','.variant_select',function() {
 			var elem = $(this).attr('id').split('_variant')[0];
@@ -412,30 +427,30 @@ $(document).ready(function () {
 				$(elem).css('font-weight', variant).css('font-style','normal');
 				$('#' + elem + '_variant_chzn .chzn-single').css('font-weight', variant).css('font-style','normal');
 			} else {
-			
+
 				$(elem).css('font-weight', variant.replace(' italic',''));
 				$(elem).css('font-style','italic');
 				$('#' + elem + '_variant_chzn .chzn-single').css({'font-weight': variant.replace(' italic',''), 'font-style': 'italic'});
 			}
-			
+
 		}); //end of variant_select change
-		
+
 	}
 	variantChange();
-	
-	
-	
+
+
+
 	//fontsize change
-	
+
 	$('#h1size, #h2size, #psize').on('change', function() {
 		var elem = $(this).attr('id').split('size')[0];
 		var value = $(this).val();
 		$(elem).css('font-size', value + 'px');
 		$(this).next('span.value').text(value);
 	});
-	
+
 	//line-height change
-	
+
 	$('#h1lh, #h2lh, #plh').on('change', function() {
 		var elem = $(this).attr('id').split('lh')[0];
 		var value = parseFloat($(this).val()).toFixed(2); // keeps the range to ouptuting two decimal places
@@ -446,7 +461,7 @@ $(document).ready(function () {
 	function colorChange(){
 		//first check to see if the viewport is greater than 768 - because the color picker functions awkwardly at smaller sizes
 		if($('body').width() > 768){
-			
+
 		$('#h1color, #h2color, #pcolor').ColorPicker({
 			onShow: function() {
 				thisEl = $(this).attr('id');
@@ -464,7 +479,7 @@ $(document).ready(function () {
 		.bind('keyup', function() {
 			$(this).ColorPickerSetColor(this.value);
 		});
-	
+
 		$('#bgcolor').ColorPicker({
 			onShow: function() {
 				thisEl = $(this).attr('id');
@@ -491,10 +506,10 @@ $(document).ready(function () {
 			});
 
 		}
-		
+
 	}
 	colorChange();
-	
+
 	$('#h1_hide, #h2_hide, #p_hide').on('click',function() {
 			var elem = $(this).attr('id').split('_hide')[0];
 			if($(this).val() === "Hide") {
@@ -508,7 +523,7 @@ $(document).ready(function () {
 
 
 	$('body').attr('spellcheck',false); //because of firefox's spellcheck, which has a nasty red underline
-	
+
 	$('#control_option').on('change',function() {
 		var control = $(this).val();
 		var controlId = '#' + control + '_sec';
@@ -524,11 +539,11 @@ $(document).ready(function () {
 					$('#h1_select_chzn, #h2_select_chzn, #p_select_chzn, .chzn-drop').css('width','180px');
 				});
 			});
-			
+
 		}
 	});
-	
-	
+
+
 	//panel navigation
 	function carouselNav(targetId,activeClass,changingContentClass,speed) {
 		$(targetId + ' a').click(function() {
@@ -550,7 +565,7 @@ $(document).ready(function () {
 			return false;
 		});
 	}
-	
+
 	carouselNav('#panel_nav','here','panel','normal');
 
 	function externalLinks() {
@@ -565,8 +580,8 @@ $(document).ready(function () {
 		}
 	}
 	externalLinks();
-	
-	
+
+
 	var req = $.ajax({
 	    url: 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAc3a2WfPaSbA1B25u78zFQRfAide8T34c&sort=alpha&sort=desc',
 	    dataType : "jsonp",
@@ -579,7 +594,7 @@ $(document).ready(function () {
 		defaultFontChange();
 	});
 
-	
+
 	// ajax success function
 	function onJson(data) {
 		if (data.kind === "webfonts#webfontList") {
@@ -609,16 +624,16 @@ $(document).ready(function () {
 					$('#control_option_chzn .chzn-single span').text('Subhead (H2)');
 				} else if(elem === 'p'){
 					$('#control_option_chzn .chzn-single span').text('Body text (p)');
-				} 
+				}
 			});
 			$('#control_option_chzn').fadeIn('fast');
 		}
 	});
-	
+
 });
 
 
-	
+
 
 // TODO:
 
@@ -627,4 +642,3 @@ $(document).ready(function () {
 // - add background texture additions
 // - add bookmarkable string
 
-	
