@@ -206,15 +206,19 @@
 	if(isset($_GET['h1']) && !in_array($_GET['h1'], $systemFontArr)){
 		echo '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=' . str_replace(' ','+', $_GET['h1']) . '" type="text/css" />';
 	} else {
-		echo '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ultra" type="text/css" />';
+		echo '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Merriweather" type="text/css" />';
 	}
 
 	if(isset($_GET['h2']) && !in_array($_GET['h2'], $systemFontArr)){
 			echo '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=' . str_replace(' ','+', $_GET['h2']) . '" type="text/css" />';
-		}
+	} else {
+		echo '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200" type="text/css" />';
+	}
 	if(isset($_GET['p']) && !in_array($_GET['p'], $systemFontArr)){
 			echo '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=' . str_replace(' ','+', $_GET['p']) . '" type="text/css" />';
-		}
+	} else {
+		echo '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css" />';
+	}
 
 		 ?>
 </head>
@@ -276,7 +280,8 @@
 						<?php defaultFonts('h1');	?>
 					</select>
 					<select class="variant_select" id="h1_variant" name="h1v">
-						<?php defaultVariant('h1v'); ?>
+						<option>400</option>
+						<?php //defaultVariant('h1v'); ?>
 					<select>
 
 				</div>

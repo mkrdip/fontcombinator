@@ -41,9 +41,9 @@ $(document).ready(function () {
 
 			defaultFonts = [];
 
-			defaultFonts["h1"] = 'Ultra';
-			defaultFonts["h2"] = 'Trebuchet MS';
-			defaultFonts["p"] = 'Trebuchet MS';
+			defaultFonts["h1"] = 'Merriweather';
+			defaultFonts["h2"] = 'Source Sans Pro';
+			defaultFonts["p"] = 'Source Sans Pro';
 		}
 
 		delay = 2000;  //delay used throughout the interface
