@@ -1,5 +1,11 @@
+var html = document.querySelector('html');
+
+html.classList.toggle("no-js");
+html.classList.toggle("js");
+
+
 $(document).ready(function () {
-	$('html').removeClass('no-js');
+	//$('html').removeClass('no-js');
 
 	//allows the parsing of the URL parameters
 	$.extend({
@@ -281,7 +287,6 @@ $(document).ready(function () {
 	$('<div class="element"> <label for="control_option">Element:</label> <select name="control_option" id="control_option"> <option value="h1">Headline (H1)</option> <option value="h2">Subhead (H2)</option> <option value="p">Body text (p)</option> <option value="bg">Background</option> </select> </div>').prependTo('#controls');
 
 	function changeFonts(fontList) {
-
 		$(targets).change(function() {
 			var base = "http://fonts.googleapis.com/css?family=";
 			var fontName = $(this).val();

@@ -66,10 +66,7 @@
 
 
 <!DOCTYPE html>
-<!--[if lt IE 7]> <html lang="en-us" class="no-js ie6"> <![endif]-->
-<!--[if IE 7]>    <html lang="en-us" class="no-js ie7"> <![endif]-->
-<!--[if IE 8]>    <html lang="en-us" class="no-js ie8"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en-us" class="no-js"> <!--<![endif]-->
+<html lang="en-us" class="no-js">
 <head>
 
 	<meta charset="utf-8">
@@ -397,11 +394,8 @@
 	<script src="javascript/chosen/chosen.jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="javascript/colorpicker.js" type="text/javascript" charset="utf-8"></script>
 
-	<script src="javascript/fc_functions-ck.js" type="text/javascript" charset="utf-8"></script>
+	<script src="javascript/fc_functions.js" type="text/javascript" charset="utf-8"></script>
 	<!-- Want to see the unminified javascript? check javascript/fc_functions.js -->
-
-
-	<script src="javascript/html5slider.js" type="text/javascript" charset="utf-8"></script>
 
 	<script type="text/javascript">
 
