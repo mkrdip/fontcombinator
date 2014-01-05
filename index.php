@@ -398,8 +398,6 @@
 	<!-- Want to see the unminified javascript? check javascript/fc_functions.js -->
 
 
-	<script src="javascript/html5slider.js" type="text/javascript" charset="utf-8"></script>
-
 	<script type="text/javascript">
 
 	  var _gaq = _gaq || [];
