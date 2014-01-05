@@ -1,11 +1,33 @@
-var html = document.querySelector('html');
+var fc = {
+	html: document.querySelector('html')
+}
 
-html.classList.toggle("no-js");
-html.classList.toggle("js");
 
+
+var fcInit = (function () {
+	fc.html.classList.toggle("no-js");
+	fc.html.classList.toggle("js");
+
+})();
+
+//fcInit();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////
 
 $(document).ready(function () {
-	//$('html').removeClass('no-js');
 
 	//allows the parsing of the URL parameters
 	$.extend({
@@ -636,14 +658,3 @@ $(document).ready(function () {
 	});
 
 });
-
-
-
-
-// TODO:
-
-
-// - STYLE - nice design this time, k?
-// - add background texture additions
-// - add bookmarkable string
-
