@@ -1,5 +1,14 @@
+var fc = {
+	html: document.querySelector('html')
+}
+
+var fcInit = (function () {
+	fc.html.classList.toggle("no-js");
+	fc.html.classList.toggle("js");
+})();
+
 $(document).ready(function () {
-	$('html').removeClass('no-js');
+	//$('html').removeClass('no-js');
 
 	//allows the parsing of the URL parameters
 	$.extend({
