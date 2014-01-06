@@ -85,10 +85,10 @@
 
 	<link rel="stylesheet" href="css/colorpicker.css" type="text/css" media="screen" title="no title" />
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
 	<script>
 	if (typeof jQuery == 'undefined') {
-	document.write('<script src="', 'javascript/jquery-1.8.2.min.js', '" type="text/JavaScript"><\/script>');
+	document.write('<script src="', 'javascript/jquery-2.0.3.min.js', '" type="text/JavaScript"><\/script>');
 	}
 	</script>
 
