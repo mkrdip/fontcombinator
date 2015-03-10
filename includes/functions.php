@@ -22,6 +22,8 @@ $system = array (
     )
   );
 
+global $elems;
+
 $elems = array (
   'h1',
   'h2',
@@ -52,16 +54,49 @@ function createVariantOptions($elem, $system){
   }
 }
 
-function createHeaderStyles(){
+function createHeaderStyles($elems){
   if($_GET){
-    $output = '';
 
-    $output .= '<style>';
+    $output = '<style>';
 
-    $output .= 'h1 { font-family: ' . $_GET[h1Font] . ';';
-    $output .= 'font-weight: ' . $_GET[h1Variant] . ';';
+    foreach ($elems as $elem) {
+      
+      $varCall = (string)$elem . 'Variant';
+      $fontCall = (string)$elem . 'Font';
+      $sizeCall = (string)$elem . 'Size';
+      $lhCall = (string)$elem . 'LineHeight';
 
-    $output .= '}';
+      $weight = str_replace(' italic', '', $_GET[$varCall]);
+
+      //$weight = str_replace(' italic', '', $_GET['h1Variant']);
+
+      switch($weight) {
+        case 'normal':
+          $weight = '400';
+          break;
+        case 'semibold':
+          $weight = '500';
+          break;
+        case 'bold':
+          $weight = '600';
+          break;  
+      }
+
+      $output .= '.content ' . $elem;
+      $output .= '{ font-family: ' . $_GET[$fontCall] . ';';
+
+      if (strpos($_GET[$varCall], 'italic')) {
+        $output .= 'font-style: italic;';
+      }
+      
+      $output .= 'font-weight: ' . $weight . ';';
+
+      $output .= 'font-size: ' . $_GET[$sizeCall] . 'px;';
+      $output .= 'line-height: ' . $_GET[$lhCall] . ';';
+
+      $output .= '}';
+    }
+
     $output .= '</style>';
 
     return $output;
