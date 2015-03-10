@@ -10,15 +10,18 @@
 
 <form action="">
 <select name="h1Font" id="">
-<?php options('h1', $system); ?>
+  <?php createFontOptions('h1Font', $system); ?>
 </select>
 
 <select name="h1Variant" id="">
-<?php variants('h1v', $system); ?>
+  <?php createVariantOptions('h1Variant', $system); ?>
 </select>
 
 <input type="submit" value="Submit">
 </form>
+
+<?php print_r( $_GET); ?>
+
 <?php include 'includes/footer.php'; ?>
- </body>
- </html>
+</body>
+</html>

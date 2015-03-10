@@ -1,15 +1,71 @@
 var fc = {
-  html: document.querySelector('html')
+        html: document.querySelector('html'),
+        body: document.querySelector('body'),
+    };
+
+//console.log(fc.html);
+
+// found here: http://jsfiddle.net/jfriend00/g95umf40/
+function breakArrayIntoGroups(data, maxPerGroup) {
+    var groups = [];
+    for (var index = 0; index < data.length; index += maxPerGroup) {
+        groups.push(data.slice(index, index + maxPerGroup));
+    }
+    return groups;
 }
 
 
+fc.requestFonts = function (fontList) {
+    'use strict';
+    var base = "http://fonts.googleapis.com/css?family=";
 
-var fcInit = (function () {
-  fc.html.classList.toggle("no-js");
-  fc.html.classList.toggle("js");
+    var groupedFontList = breakArrayIntoGroups(fontList, 6);
 
+    console.log(groupedFontList);
+
+    for (var i=0, j = groupedFontList.length; i < j; i++) {
+      //console.log(groupedFontList[i].length);
+
+      for (var k=0, l = groupedFontList[i][k].length; k < l; k++) {
+        console.log(groupedFontList[i][k]);
+      }
+    }
+    //console.log(i);
+};
+
+fc.ApiCall = function () {
+    var request = new XMLHttpRequest();
+
+    var apiURL = 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAc3a2WfPaSbA1B25u78zFQRfAide8T34c&sort=alpha&sort=desc';
+
+    request.open('GET', apiURL, true);
+
+    request.onload = function () {
+        if (this.status >= 200 && this.status < 400) {
+          // Success!
+          //var resp = this.response;
+            var data = JSON.parse(this.response);
+            fc.requestFonts(data.items);
+        } else {
+          // We reached our target server, but it returned an error
+            console.log('doh!');
+        }
+    };
+
+    request.onerror = function() {
+      // There was a connection error of some sort
+        console.log('doh!');
+    };
+    request.send();
+};
+
+
+
+fc.Init = (function () {
+    fc.html.classList.toggle("no-js");
+    fc.html.classList.toggle("js");
+    fc.ApiCall();
 })();
-
 
 // An outline of functions from the old file:
 

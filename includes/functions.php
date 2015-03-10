@@ -28,7 +28,7 @@ $elems = array (
   'p'
   );
 
-function options($elem, $system){
+function createFontOptions($elem, $system){
   foreach ($system['fonts'] as $font) {
     echo '<option class="system-font" value="' . $font . '" ';
     if(isset($_GET[$elem]) && $_GET[$elem] == $font){
@@ -40,7 +40,7 @@ function options($elem, $system){
   }
 }
 
-function variants($elem, $system){
+function createVariantOptions($elem, $system){
   foreach ($system['variants'] as $variant) {
     echo '<option class="system-variant" value="' . $variant . '" ';
     if(isset($_GET[$elem]) && $_GET[$elem] == $variant){
@@ -51,6 +51,21 @@ function variants($elem, $system){
     echo '</option>';
   }
 }
- 
 
- ?>
+function createHeaderStyles(){
+  if($_GET){
+    $output = '';
+
+    $output .= '<style>';
+
+    $output .= 'h1 { font-family: ' . $_GET[h1Font] . ';';
+    $output .= 'font-weight: ' . $_GET[h1Variant] . ';';
+
+    $output .= '}';
+    $output .= '</style>';
+
+    return $output;
+  }
+}
+ 
+?>
