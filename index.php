@@ -9,7 +9,9 @@
 <div class="content">
 <h1>Hi, welcome to the Font Combinator</h1>
 </div>
-<form action="index.php">
+
+
+<form action="index.php" class="fc-controls">
 <select name="h1Font" id="">
   <?php createFontOptions('h1Font', $system); ?>
 </select>
@@ -25,7 +27,7 @@
 <input type="number" name="h1LineHeight" id="h1LineHeight" min="0" step=".1" value="1.4"/>
 
 
-
+<br />
 
 <select name="h2Font" id="">
   <?php createFontOptions('h2Font', $system); ?>
@@ -41,6 +43,8 @@
 <label for="h2LineHeight">h2 Line Height</label>
 <input type="number" name="h2LineHeight" id="h2LineHeight" min="0" step=".1" value="1.4"/>
 
+<br/>
+
 <select name="pFont" id="">
   <?php createFontOptions('pFont', $system); ?>
 </select>
@@ -55,8 +59,13 @@
 <label for="pLineHeight">Paragraph Line Height</label>
 <input type="number" name="pLineHeight" id="pLineHeight" min="0" step=".1" value="1.4"/>
 
+<br />
+
+<label for="bgColor">Background Color</label>
+<input type="color" id="bgColor" />
+
 <input type="submit" value="Submit">
-</form>
+</form> <!-- end fc-controls -->
 
 <?php print_r( $_GET); ?>
 

@@ -82,19 +82,24 @@ function createHeaderStyles($elems){
           break;  
       }
 
-      $output .= '.content ' . $elem;
-      $output .= '{ font-family: ' . $_GET[$fontCall] . ';';
-
+      $output .= '.content ' . $elem . '{'; 
+      $output .= "\n";
+      $output .= 'font-family: ' . $_GET[$fontCall] . ';';
+      $output .= "\n";
       if (strpos($_GET[$varCall], 'italic')) {
         $output .= 'font-style: italic;';
+        $output .= "\n";
       }
       
       $output .= 'font-weight: ' . $weight . ';';
-
+      $output .= "\n";
       $output .= 'font-size: ' . $_GET[$sizeCall] . 'px;';
+      $output .= "\n";
       $output .= 'line-height: ' . $_GET[$lhCall] . ';';
-
+      $output .= "\n";
       $output .= '}';
+
+      $output .= "\n";
     }
 
     $output .= '</style>';

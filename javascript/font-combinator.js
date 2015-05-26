@@ -1,7 +1,10 @@
+// using the new-fangled 'use strict'
+'use strict';
+
 var fc = {
-        html: document.querySelector('html'),
-        body: document.querySelector('body'),
-    };
+  html: document.querySelector('html'),
+  body: document.querySelector('body'),
+};
 
 //console.log(fc.html);
 
@@ -16,7 +19,7 @@ function breakArrayIntoGroups(data, maxPerGroup) {
 
 
 fc.requestFonts = function (fontList) {
-    'use strict';
+    
     var base = "http://fonts.googleapis.com/css?family=";
 
     var groupedFontList = breakArrayIntoGroups(fontList, 6);
@@ -33,7 +36,7 @@ fc.requestFonts = function (fontList) {
     //console.log(i);
 };
 
-fc.ApiCall = function () {
+fc.apiCall = function () {
     var request = new XMLHttpRequest();
 
     var apiURL = 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAc3a2WfPaSbA1B25u78zFQRfAide8T34c&sort=alpha&sort=desc';
@@ -61,11 +64,11 @@ fc.ApiCall = function () {
 
 
 
-fc.Init = (function () {
+fc.init = function () {
     fc.html.classList.toggle("no-js");
     fc.html.classList.toggle("js");
-    fc.ApiCall();
-})();
+    fc.apiCall();
+}();
 
 // An outline of functions from the old file:
 
