@@ -62,36 +62,28 @@ $elems = array (
 
 // this creates a set of <option> elements for each font in $system - needs to be placed within a <select>
 function createFontOptions($elem, $system, $defaults, $default){
-  if($default === 'default'){
-
-    foreach ($system['fonts'] as $font) {
-      echo '<option class="system-font" value="' . $font . '" ';
-      if(isset($defaults[$elem]['fontFamily']) && $defaults[$elem]['fontFamily'] == $font){
-        echo 'selected';
-      }
-      echo ' >';
-      echo $font;
-      echo '</option>';
+  foreach ($system['fonts'] as $font) {
+    echo '<option class="system-font" value="' . $font . '" ';
+    if(
+      (isset($_GET[$elem]) && $_GET[$elem] == $font) ||
+      (isset($default) && $default === 'default' && $defaults[$elem]['fontFamily'] === $font)
+       ){
+      echo 'selected';
     }
-  } else {
-    foreach ($system['fonts'] as $font) {
-      echo '<option class="system-font" value="' . $font . '" ';
-      if(isset($_GET[$elem]) && $_GET[$elem] == $font){
-        echo 'selected';
-      }
-      echo ' >';
-      echo $font;
-      echo '</option>';
-    }
+    echo ' >';
+    echo $font;
+    echo '</option>';
   }
-
 }
 
 // This creates the <option> elements for the variants - needs to be placed within a <select>
-function createVariantOptions($elem, $system){
+function createVariantOptions($elem, $system, $defaults, $default){
   foreach ($system['variants'] as $variant) {
     echo '<option class="system-variant" value="' . $variant . '" ';
-    if(isset($_GET[$elem]) && $_GET[$elem] == $variant){
+    if(
+      (isset($_GET[$elem]) && $_GET[$elem] == $variant) ||
+      (isset($default) && $default === 'default' && $defaults[$elem]['fontVariant'] === $variant)
+      ){
       echo 'selected';
     }
     echo ' >';
@@ -281,7 +273,7 @@ function createAllControls($elem, $label, $system, $defaults){
     if (isset($_GET[$visibilityCall])  && $_GET[$visibilityCall] === 'hidden'){ 
       echo "checked='checked'";
     } 
-    echo '/>Hide</label>';
+    echo ' />Hide</label>';
   } else {
     // uses same set of stringified variables
     $varCall = (string)$elem . 'Variant';
@@ -291,12 +283,33 @@ function createAllControls($elem, $label, $system, $defaults){
     $visibilityCall = (string)$elem . 'Visibility';
     $colorCall = (string)$elem . 'Color';
 
-    
+
     //if no hash, load controls based on $defaults
     echo '<label for="' . $elem . 'Font">'. $label .' Typeface</label>';
     echo '<select name="' . $elem . 'Font" id="' . $elem . 'Font">';
-    createFontOptions($fontCall, $system, $defaults, 'default'); 
+    createFontOptions($elem, $system, $defaults, 'default'); 
     echo '</select>';
+
+    echo '<label for="' . $elem . 'Variant">'. $label .' Weight</label>';
+    echo '<select name="' . $elem . 'Variant" id="' . $elem . 'Variant">';
+    createVariantOptions($elem, $system, $defaults, 'default'); 
+    echo '</select>';
+
+    echo '<label for="' . $elem . 'Size">' . $label . ' Type Size</label>';
+    echo '<input type="number" name="' . $elem . 'Size" id="' . $elem . 'Size" min="8" step="1" value="' . $defaults[$elem]['fontSize'];
+    echo '"/>';
+
+    echo '<label for="' . $elem . 'LineHeight">' . $label . ' Line Height</label>';
+    echo '<input type="number" name="' . $elem . 'LineHeight" id="' . $elem . 'LineHeight" min="0" step=".1" value="' . $defaults[$elem]['lineHeight'];
+    echo '"/>';
+
+    echo '<label for="' . $elem . 'Color">' . $label . ' Color</label>';
+    echo '<input type="color" id="' . $elem . 'Color" name="' . $elem . 'Color" ';
+    echo 'value="'.$defaults[$elem]['color'].'"';
+    echo '/>';
+
+    echo '<label for="' . $elem . 'Visibility">';
+    echo '<input type="checkbox" name="' . $elem . 'Visibility" id="' . $elem . 'Visibility" value="hidden">Hide</label>';
   }
  }
 ?>

@@ -39,6 +39,8 @@
 />
 
 <input type="submit" value="Submit">
+<br />
+<a href="index.php">Reset</a>
 </form> <!-- end fc-controls -->
 
 <?php print_r( $_GET); ?>
