@@ -30,9 +30,11 @@
 <label for="bgColor">Background Color</label>
 <input type="color" id="bgColor" name="bgColor" 
 <?php 
-      if (isset($_GET["bgColor"])) {
-        echo 'value="'.$_GET["bgColor"].'"';
-      }
+  if (isset($_GET["bgColor"])) {
+    echo 'value="'.$_GET["bgColor"].'"';
+  } else {
+    echo 'value="#ffffff"';
+  }
  ?>
 />
 
