@@ -125,9 +125,11 @@ function createHeaderStyles($elems){
 }
 
 function createAllControls($elem, $label, $system){
+  echo '<label for="' . $elem . 'Font">'. $label .' Typeface</label>';
   echo '<select name="' . $elem . 'Font" id="' . $elem . 'Font">';
   createFontOptions('h1Font', $system); 
   echo '</select>';
+  echo '<label for="' . $elem . 'Variant">'. $label .' Weight</label>';
   echo '<select name="' . $elem . 'Variant" id="' . $elem . 'Variant">';
   createVariantOptions('h1Variant', $system); 
   echo '</select>';
