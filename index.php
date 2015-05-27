@@ -15,15 +15,15 @@
 
 <form action="index.php" class="fc-controls">
 
-<?php createAllControls('h1', 'h1', 32, $system); ?>
+<?php createAllControls('h1', 'h1', $system, $defaults); ?>
 
 <br />
 
-<?php createAllControls('h2', 'h2', 24, $system); ?>
+<?php createAllControls('h2', 'h2', $system, $defaults); ?>
 
 <br/>
 
-<?php createAllControls('p', 'Paragraph', 16, $system); ?>
+<?php createAllControls('p', 'Paragraph', $system, $defaults); ?>
 
 <br />
 
