@@ -5,7 +5,9 @@
 <?php include 'includes/header.php'; ?>
 
 <body>
-
+<p class="no-js-warning">
+  JavaScript seems to be disabled. While the Font Combinator <em>will work</em> without JavaScript, you will be missing out on the use of Google Fonts. I would highly suggest that you enable JavaScript to use the Font Combinator.
+</p>
 <div class="content">
 <h1>Hi, welcome to the Font Combinator</h1>
 <h2>This is the h2</h2>
@@ -38,9 +40,9 @@
  ?>
 />
 
-<input type="submit" value="Submit">
+<input type="submit" value="Submit" class="fc-submit">
 <br />
-<a href="index.php">Reset</a>
+<a href="index.php" class="fc-reset">Reset</a>
 </form> <!-- end fc-controls -->
 
 <?php print_r( $_GET); ?>

@@ -3,7 +3,6 @@ var fc = {
 }
 
 
-
 var fcInit = (function () {
 	fc.html.classList.toggle("no-js");
 	fc.html.classList.toggle("js");

@@ -6,68 +6,83 @@ var fc = {
   body: document.querySelector('body'),
 };
 
-//console.log(fc.html);
+fc.doesBrowserCutMustard = function () {
+  if('querySelector' in document
+    && 'localStorage' in window
+    && 'addEventListener' in window) {
+    return true;
+  }
+}
+
+fc.intialDOMManipulation = function () {
+  document.querySelector('.fc-submit').remove(); //hiding the submit button
+  document.querySelector('.fc-reset').remove();
+}
 
 // found here: http://jsfiddle.net/jfriend00/g95umf40/
-function breakArrayIntoGroups(data, maxPerGroup) {
-    var groups = [];
-    for (var index = 0; index < data.length; index += maxPerGroup) {
-        groups.push(data.slice(index, index + maxPerGroup));
-    }
-    return groups;
+fc.breakArrayIntoGroups = function (data, maxPerGroup) {
+  var groups = [];
+  for (var index = 0; index < data.length; index += maxPerGroup) {
+      groups.push(data.slice(index, index + maxPerGroup));
+  }
+  return groups;
 }
 
 
 fc.requestFonts = function (fontList) {
-    
-    var base = "http://fonts.googleapis.com/css?family=";
+  var base = "http://fonts.googleapis.com/css?family=";
+  var groupedFontList = fc.breakArrayIntoGroups(fontList, 6);
 
-    var groupedFontList = breakArrayIntoGroups(fontList, 6);
+  console.log(groupedFontList);
 
-    console.log(groupedFontList);
+  for (var i=0, j = groupedFontList.length; i < j; i++) {
+    //console.log(groupedFontList[i].length);
 
-    for (var i=0, j = groupedFontList.length; i < j; i++) {
-      //console.log(groupedFontList[i].length);
-
-      for (var k=0, l = groupedFontList[i][k].length; k < l; k++) {
-        console.log(groupedFontList[i][k]);
-      }
+    for (var k=0, l = groupedFontList[i][k].length; k < l; k++) {
+      console.log(groupedFontList[i][k]);
     }
-    //console.log(i);
+  }
+
 };
 
 fc.apiCall = function () {
-    var request = new XMLHttpRequest();
+  var request = new XMLHttpRequest();
 
-    var apiURL = 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAc3a2WfPaSbA1B25u78zFQRfAide8T34c&sort=alpha&sort=desc';
+  var apiURL = 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAc3a2WfPaSbA1B25u78zFQRfAide8T34c&sort=alpha&sort=desc';
 
-    request.open('GET', apiURL, true);
+  request.open('GET', apiURL, true);
 
-    request.onload = function () {
-        if (this.status >= 200 && this.status < 400) {
-          // Success!
-          //var resp = this.response;
-            var data = JSON.parse(this.response);
-            fc.requestFonts(data.items);
-        } else {
-          // We reached our target server, but it returned an error
-            console.log('doh!');
-        }
-    };
-
-    request.onerror = function() {
-      // There was a connection error of some sort
+  request.onload = function () {
+    if (this.status >= 200 && this.status < 400) {
+      // Success!
+      //var resp = this.response;
+        var data = JSON.parse(this.response);
+        fc.requestFonts(data.items);
+    } else {
+      // We reached our target server, but it returned an error
         console.log('doh!');
-    };
-    request.send();
+    }
+  };
+
+  request.onerror = function() {
+    // There was a connection error of some sort
+      console.log('doh!');
+  };
+  request.send();
 };
 
 
-
+// initiating the whole thing with a self executing function
 fc.init = function () {
-    fc.html.classList.toggle("no-js");
-    fc.html.classList.toggle("js");
+  fc.html.classList.toggle("no-js");
+  fc.html.classList.toggle("js");
+  document.querySelector('.no-js-warning').remove();
+
+  // this actually gets the party started
+  if(fc.doesBrowserCutMustard()){
     fc.apiCall();
+    fc.intialDOMManipulation();
+  }
 }();
 
 // An outline of functions from the old file:
