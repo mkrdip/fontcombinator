@@ -1,6 +1,34 @@
 <?php 
 
-// first we need to create two global variables with arrays - the first is for the system defaults
+// these are the defaults based on system fonts
+
+global $defaults;
+
+$defaults = array(
+  'h1' => array (
+    'fontFamily' => 'Georgia',
+    'fontVariant' => 'bold',
+    'fontSize' => '32',
+    'lineHeight' => '1.4',
+    'color' => '#000000'
+    ),
+  'h2' => array (
+    'fontFamily' => 'Garamond',
+    'fontVariant' => 'normal italic',
+    'fontSize' => '24',
+    'lineHeight' => '1.4',
+    'color' => '#000000'
+    ),
+  'p' => array (
+    'fontFamily' => 'Helvetica',
+    'fontVariant' => 'normal',
+    'fontSize' => '16',
+    'lineHeight' => '1.4',
+    'color' => '#000000'
+    )
+  );
+
+// this global variable is for the system font defaults
 global $system;
 
 $system = array (
@@ -23,7 +51,7 @@ $system = array (
     )
   );
 
-// the second global variable is for an array with the elements we will be targeting
+// this global variable is for an array with the elements we will be targeting
 global $elems;
 
 $elems = array (
@@ -60,11 +88,10 @@ function createVariantOptions($elem, $system){
 
 
 // This is what generates the <style> element in the header (see header.php for the call)
-// Currently trying the $output .= approach - may want to later make consistent with the echo approach elsewhere
-function createHeaderStyles($elems){
+function createHeaderStyles($elems, $defaults){
   if($_GET){
 
-    $output = '<style>';
+    echo '<style>';
 
     // creating a style declaration for each element in the global $elems
     foreach ($elems as $elem) {
@@ -77,6 +104,7 @@ function createHeaderStyles($elems){
       $visibilityCall = (string)$elem . 'Visibility';
       $colorCall = (string)$elem . 'Color';
 
+      // removing the word 'italic' so we *just* have the weight
       $weight = str_replace(' italic', '', $_GET[$varCall]);
 
       //transforming weights into numbers
@@ -93,64 +121,108 @@ function createHeaderStyles($elems){
       }
 
       // the rules will only target elements within the .content div
-      $output .= '.content ' . $elem . '{'; 
-      $output .= "\n";  //makes a new line for easier reading
+      echo '.content ' . $elem . '{'; 
+      echo "\n";  //makes a new line for easier reading
 
       // checks to see if it's hidden
       if (isset($_GET[$visibilityCall]) && $_GET[$visibilityCall] === 'hidden') {
-        $output .= 'display: none;';
-        $output .= "\n";
+        echo 'display: none;';
+        echo "\n";
       }
 
       // checks for color
       if (isset($_GET[$colorCall])) {
-        $output .= 'color: ' . $_GET[$colorCall] . ';';
-        $output .= "\n";
+        echo 'color: ' . $_GET[$colorCall] . ';';
+        echo "\n";
       }
 
       // checks for font family
-      $output .= 'font-family: ' . $_GET[$fontCall] . ';';
-      $output .= "\n";
+      echo 'font-family: ' . $_GET[$fontCall] . ';';
+      echo "\n";
 
       // checks to see if variant parameter indicates italic
       if (strpos($_GET[$varCall], 'italic')) {
-        $output .= 'font-style: italic;';
-        $output .= "\n";
+        echo 'font-style: italic;';
+        echo "\n";
       }
       
       // checks for font weight
-      $output .= 'font-weight: ' . $weight . ';';
-      $output .= "\n";
+      echo 'font-weight: ' . $weight . ';';
+      echo "\n";
 
       // checks for font size
-      $output .= 'font-size: ' . $_GET[$sizeCall] . 'px;';
-      $output .= "\n";
+      echo 'font-size: ' . $_GET[$sizeCall] . 'px;';
+      echo "\n";
 
       // checks for line height
-      $output .= 'line-height: ' . $_GET[$lhCall] . ';';
-      $output .= "\n";
-      $output .= '}';
+      echo 'line-height: ' . $_GET[$lhCall] . ';';
+      echo "\n";
+      echo '}';
 
-      $output .= "\n";
+      echo "\n";
     }
 
     // checks for body background color, adds a new declaration
     if (isset($_GET['bgColor'])) {
-      $output .= 'body {';
-      $output .= "\n";
-      $output .= 'background-color: ' . $_GET['bgColor'];
-      $output .= "\n";
-      $output .= '}';
+      echo 'body {';
+      echo "\n";
+      echo 'background-color: ' . $_GET['bgColor'];
+      echo "\n";
+      echo '}';
     }
 
-    $output .= '</style>';
+    echo '</style>';
 
-    return $output;
+  } else {
+    // if there isn't a hash, load the defaults
+    echo '<style>';
+    foreach ($elems as $elem) {
+      //making sure variant is set
+      if(isset($defaults[$elem]['fontVariant'])){
+        //getting rid of 'italic' to just get the weight
+        $weight = str_replace(' italic', '', $defaults[$elem]['fontVariant']);
+
+        //transforming weights into numbers
+        switch($weight) {
+          case 'normal':
+            $weight = '400';
+            break;
+          case 'semibold':
+            $weight = '500';
+            break;
+          case 'bold':
+            $weight = '600';
+            break;  
+        }
+      }
+
+
+      echo '.content ' . $elem . '{'; 
+      echo "\n";  
+      echo 'font-family: ' . $defaults[$elem]['fontFamily'] . ';';
+      echo "\n";
+
+      echo 'font-size: ' . $defaults[$elem]['fontSize'] . 'px;';
+      echo "\n";
+
+      if(isset($defaults[$elem]['fontVariant'])){
+        echo 'font-weight: ' . $weight . ';';
+        echo "\n";
+
+        if (strpos($defaults[$elem]['fontVariant'], 'italic')) {
+          echo 'font-style: italic;';
+          echo "\n";
+        } 
+      }
+
+      echo '}';
+      echo "\n";  
+    }  
+    echo '</style>';
   }
 }
 
 // function that creates all the element controls with the appropriate names and IDs
-// this is done with a bunch of echo's - need to decide on this OR $output method
 function createAllControls($elem, $label, $defaultSize, $system){
   // uses same set of stringified variables
   $varCall = (string)$elem . 'Variant';

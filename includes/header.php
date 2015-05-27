@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <?php echo createHeaderStyles($elems); ?>
+        <?php createHeaderStyles($elems, $defaults); ?>
 
 
         <script src="javascript/font-combinator.js" async></script>
