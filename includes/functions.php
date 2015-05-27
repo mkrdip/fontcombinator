@@ -66,6 +66,7 @@ function createHeaderStyles($elems){
       $sizeCall = (string)$elem . 'Size';
       $lhCall = (string)$elem . 'LineHeight';
       $visibilityCall = (string)$elem . 'Visibility';
+      $colorCall = (string)$elem . 'Color';
 
       $weight = str_replace(' italic', '', $_GET[$varCall]);
 
@@ -88,6 +89,11 @@ function createHeaderStyles($elems){
 
       if (isset($_GET[$visibilityCall]) && $_GET[$visibilityCall] === '1') {
         $output .= 'display: none;';
+        $output .= "\n";
+      }
+
+      if (isset($_GET[$colorCall])) {
+        $output .= 'color: ' . $_GET[$colorCall] . ';';
         $output .= "\n";
       }
 
@@ -124,7 +130,12 @@ function createHeaderStyles($elems){
   }
 }
 
-function createAllControls($elem, $label, $system){
+// function that creates all the element controls with the appropriate names and IDs
+function createAllControls($elem, $label, $defaultSize, $system){
+
+  $colorCall = (string)$elem . 'Color';
+  $visibilityCall = (string)$elem . 'Visibility';
+
   echo '<label for="' . $elem . 'Font">'. $label .' Typeface</label>';
   echo '<select name="' . $elem . 'Font" id="' . $elem . 'Font">';
   createFontOptions('h1Font', $system); 
@@ -133,6 +144,21 @@ function createAllControls($elem, $label, $system){
   echo '<select name="' . $elem . 'Variant" id="' . $elem . 'Variant">';
   createVariantOptions('h1Variant', $system); 
   echo '</select>';
-
+  echo '<label for="' . $elem . 'Size">' . $label . ' Type Size</label>';
+  echo '<input type="number" name="' . $elem . 'Size" id="' . $elem . 'Size" min="8" step="1" value="' . $defaultSize . '"/>';
+  echo '<label for="' . $elem . 'LineHeight">' . $label . ' Line Height</label>';
+  echo '<input type="number" name="' . $elem . 'LineHeight" id="' . $elem . 'LineHeight" min="0" step=".1" value="1.4"/>';
+  echo '<label for="' . $elem . 'Color">' . $label . ' Color</label>';
+  echo '<input type="color" id="' . $elem . 'Color" name="' . $elem . 'Color" ';
+  if (isset($_GET[$colorCall])) {
+    echo 'value="'.$_GET[$colorCall].'"';
+  }
+  echo '/>';
+  echo '<label for="' . $elem . 'Visibility">';
+  echo '<input type="checkbox" name="' . $elem . 'Visibility" id="' . $elem . 'Visibility" value="1" '; 
+  if (isset($_GET[$visibilityCall])  && $_GET[$visibilityCall] === '1'){ 
+    echo "checked='checked'";
+  } 
+  echo '/>Hide</label>';
  }
 ?>
