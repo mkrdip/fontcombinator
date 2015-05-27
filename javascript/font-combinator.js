@@ -1,9 +1,11 @@
 // using the new-fangled 'use strict'
 'use strict';
 
+// using the fc object to namespace everything
 var fc = {
   html: document.querySelector('html'),
   body: document.querySelector('body'),
+  content: document.querySelector('.content'),
 };
 
 fc.doesBrowserCutMustard = function () {
@@ -14,9 +16,17 @@ fc.doesBrowserCutMustard = function () {
   }
 }
 
+fc.browserWarning = function () {
+  var browserWarning = document.createElement('p');
+  browserWarning.classList.add('browser-warning');
+  browserWarning.innerHTML = 'Your browser does not seem to support some of the features the Font Combinator needs in order to use some of the advanced features. Please consider using a modern browser such as <a href="https://www.google.com/chrome/">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a>';
+  fc.body.insertBefore(browserWarning, fc.content)
+}
+
 fc.intialDOMManipulation = function () {
   document.querySelector('.fc-submit').remove(); //hiding the submit button
   document.querySelector('.fc-reset').remove();
+  // need to swap check boxes with buttons here
 }
 
 // found here: http://jsfiddle.net/jfriend00/g95umf40/
@@ -81,8 +91,11 @@ fc.init = function () {
   // this actually gets the party started
   if(fc.doesBrowserCutMustard()){
     fc.apiCall();
-    fc.intialDOMManipulation();
+    //fc.intialDOMManipulation();
+  } else {
+    fc.browserWarning();
   }
+  
 }();
 
 // An outline of functions from the old file:

@@ -2,13 +2,13 @@ A pseudo-code outline for the Font Combinator
 
 
 On load / init:
-  Remove any "js needed" messages
-  Remove 'no js' class and add 'js' class
-  If cuts mustard
-    Remove 'submit' button
+  Remove any "js needed" messages x
+  Remove 'no js' class and add 'js' class x
+  If cuts mustard x
+    Remove 'submit' button x
     Swap "hide" checkboxes with buttons
   Else
-    Post message about needing a more up to date browser  
+    Post message about needing a more up to date browser   x
   If there is a hash
     Parse out the selected font faces
       if not a system font, make google font link

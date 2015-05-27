@@ -6,7 +6,7 @@
 
 <body>
 <p class="no-js-warning">
-  JavaScript seems to be disabled. While the Font Combinator <em>will work</em> without JavaScript, you will be missing out on the use of Google Fonts. I would highly suggest that you enable JavaScript to use the Font Combinator.
+  JavaScript seems to be disabled. While the Font Combinator <em>will work</em> without JavaScript, you will be missing out on the use of Google Fonts, among other features. I would highly suggest that you enable JavaScript to use the Font Combinator.
 </p>
 <div class="content">
 <h1>Hi, welcome to the Font Combinator</h1>
