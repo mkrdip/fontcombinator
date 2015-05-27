@@ -65,6 +65,7 @@ function createHeaderStyles($elems){
       $fontCall = (string)$elem . 'Font';
       $sizeCall = (string)$elem . 'Size';
       $lhCall = (string)$elem . 'LineHeight';
+      $visibilityCall = (string)$elem . 'Visibility';
 
       $weight = str_replace(' italic', '', $_GET[$varCall]);
 
@@ -84,8 +85,15 @@ function createHeaderStyles($elems){
 
       $output .= '.content ' . $elem . '{'; 
       $output .= "\n";
+
+      if (isset($_GET[$visibilityCall]) && $_GET[$visibilityCall] === '1') {
+        $output .= 'display: none;';
+        $output .= "\n";
+      }
+
       $output .= 'font-family: ' . $_GET[$fontCall] . ';';
       $output .= "\n";
+
       if (strpos($_GET[$varCall], 'italic')) {
         $output .= 'font-style: italic;';
         $output .= "\n";
@@ -102,10 +110,27 @@ function createHeaderStyles($elems){
       $output .= "\n";
     }
 
+    if (isset($_GET['bgColor'])) {
+      $output .= 'body {';
+      $output .= "\n";
+      $output .= 'background-color: ' . $_GET['bgColor'];
+      $output .= "\n";
+      $output .= '}';
+    }
+
     $output .= '</style>';
 
     return $output;
   }
 }
- 
+
+function createAllControls($elem, $label, $system){
+  echo '<select name="' . $elem . 'Font" id="' . $elem . 'Font">';
+  createFontOptions('h1Font', $system); 
+  echo '</select>';
+  echo '<select name="' . $elem . 'Variant" id="' . $elem . 'Variant">';
+  createVariantOptions('h1Variant', $system); 
+  echo '</select>';
+
+ }
 ?>

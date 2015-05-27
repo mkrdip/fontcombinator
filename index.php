@@ -8,10 +8,15 @@
 
 <div class="content">
 <h1>Hi, welcome to the Font Combinator</h1>
+<h2>This is the h2</h2>
+<p>This is the body text</p>
 </div>
 
 
 <form action="index.php" class="fc-controls">
+
+<?php createAllControls('h1', 'h1', $system); ?>
+
 <select name="h1Font" id="">
   <?php createFontOptions('h1Font', $system); ?>
 </select>
@@ -25,6 +30,26 @@
 
 <label for="h1LineHeight">h1 Line Height</label>
 <input type="number" name="h1LineHeight" id="h1LineHeight" min="0" step=".1" value="1.4"/>
+
+<label for="h1Color">h1 Color</label>
+<input type="color" id="h1Color" name="h1Color" 
+<?php 
+      if (isset($_GET["h1Color"])) {
+        echo 'value="'.$_GET["h1Color"].'"';
+      }
+ ?>
+/>
+
+<label for="h1Visibility">
+  <input type="checkbox" name="h1Visibility" id="h1Visibility" value="1"
+  <?php 
+    if (isset($_GET['h1Visibility'])  && $_GET['h1Visibility'] === '1'){ 
+    echo "checked='checked'";
+    } 
+  ?>
+   />
+  Hide
+</label>
 
 
 <br />
@@ -43,6 +68,16 @@
 <label for="h2LineHeight">h2 Line Height</label>
 <input type="number" name="h2LineHeight" id="h2LineHeight" min="0" step=".1" value="1.4"/>
 
+<label for="h2Visibility">
+  <input type="checkbox" name="h2Visibility" id="h2Visibility" value="1"
+  <?php 
+    if (isset($_GET['h2Visibility'])  && $_GET['h2Visibility'] === '1'){ 
+    echo "checked='checked'";
+    } 
+  ?>
+   />
+  Hide
+</label>
 <br/>
 
 <select name="pFont" id="">
@@ -59,10 +94,26 @@
 <label for="pLineHeight">Paragraph Line Height</label>
 <input type="number" name="pLineHeight" id="pLineHeight" min="0" step=".1" value="1.4"/>
 
+<label for="pVisibility">
+  <input type="checkbox" name="pVisibility" id="pVisibility" value="1"
+  <?php 
+    if (isset($_GET['pVisibility'])  && $_GET['pVisibility'] === '1'){ 
+    echo "checked='checked'";
+    } 
+  ?>
+   />
+  Hide
+</label>
 <br />
 
 <label for="bgColor">Background Color</label>
-<input type="color" id="bgColor" />
+<input type="color" id="bgColor" name="bgColor" 
+<?php 
+      if (isset($_GET["bgColor"])) {
+        echo 'value="'.$_GET["bgColor"].'"';
+      }
+ ?>
+/>
 
 <input type="submit" value="Submit">
 </form> <!-- end fc-controls -->
