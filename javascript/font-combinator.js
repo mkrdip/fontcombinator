@@ -15,12 +15,13 @@
 
 /* ______ SETUP & UTILITIES _______ */
 
-// using the fc object to namespace everything
+// using the fc object to namespace everything, plus a few utility functions
 var fc = {
   html: document.querySelector('html'),
   body: document.querySelector('body'),
   content: document.querySelector('.content'),
   apiKey: 'AIzaSyAc3a2WfPaSbA1B25u78zFQRfAide8T34c',
+  fontGroupSize: 12, //tweak this to change how many fonts are ganged together to cut down on HTTP requests
   systemFonts: new Array(
     'Arial',
     'Garamond',
@@ -46,9 +47,26 @@ var fc = {
     var str = str.replace(/\ /g,'+');
     return str;
   },
+  removeSpaces: function(str) {
+    var str = str.replace(/\ /g,'');
+    return str;
+  },
   changePlusesToSpaces: function(str) {
     var str = str.replace(/\+/g,' ');
     return str;
+  },
+  removePluses: function(str) {
+    var str = str.replace(/\+/g,'');
+    return str;
+  },
+  addLink: function(href) {
+    // takes an href and appends a link to the head
+    var link = document.createElement('link');
+    var base = "http://fonts.googleapis.com/css?family=";
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = base + href; 
+    document.querySelector('head').appendChild(link);
   }
 
 };
@@ -77,10 +95,13 @@ fc.breakArrayIntoGroups = function (data, maxPerGroup) {
   return groups;
 }
 
+// This expands the font family select menus to include options from Google Fonts
+// we're passed the fontList from fc.apiCall function
 fc.addFontOptions = function(fontList) {
-
+  // grabbing all three select menus - could be more elegant, but it works
   var fontSelects = document.querySelectorAll('#h1Font, #h2Font, #pFont');
 
+  // creating a seperator that indicates systems fonts
   var seperator = document.createElement('option');
   seperator.disabled = "disabled";
   seperator.innerHTML = "-- System Fonts --";
@@ -90,14 +111,19 @@ fc.addFontOptions = function(fontList) {
       thisSelect.insertBefore(seperator.cloneNode(true), thisSelect.firstChild);
   };
 
+  // looping through the fontList object
   for (var i = fontList.length - 1; i >= 0; i--) {
     // for now, limiting this list to just latin fonts
     if (fontList[i].subsets.indexOf('latin') !== -1){
+      // create an <option> for each font family
       var newOption = document.createElement('option');
       newOption.value = fontList[i].family;
       newOption.innerHTML = fontList[i].family;
     } 
 
+    // insert the new <option> into each select menu
+    // I wanted to gang up the options and *then* insert them, but .insertBefore is a right bastard
+    // that insists on being given a single node to insert
     for (var j = fontSelects.length - 1; j >= 0; j--)  {
         var thisSelect = fontSelects[j];
         thisSelect.insertBefore(newOption.cloneNode(true), thisSelect.firstChild);
@@ -107,17 +133,18 @@ fc.addFontOptions = function(fontList) {
 }
 
 fc.requestFonts = function (fontList) {
-  var base = "http://fonts.googleapis.com/css?family=";
-  var groupedFontList = fc.breakArrayIntoGroups(fontList, 6);
-
+  
+  var groupedFontList = fc.breakArrayIntoGroups(fontList, fc.fontGroupSize);
   //console.log(groupedFontList);
 
-  for (var i=0, j = groupedFontList.length; i < j; i++) {
-    //console.log(groupedFontList[i].length);
-
-    for (var k=0, l = groupedFontList[i][k].length; k < l; k++) {
-      //console.log(groupedFontList[i][k]);
+  for (var i=0; i < groupedFontList.length; i++) {
+    var fontNames = '';
+    for (var j=0; j < groupedFontList[i].length; j++) {
+      var family = groupedFontList[i][j].family;
+      fontNames += fc.changeSpacesToPluses(family) + '&text=' + fc.removeSpaces(family) + '|';
     }
+    
+    fc.addLink(fontNames);  // be careful here - this loads *everything*
   }
 
 };
@@ -133,12 +160,12 @@ fc.changeStyles = function () {
 
   if (property === 'fontFamily') {
     if (!fc.checkForSystemFont(newValue)) {
-      // adding Google Font Link here
-      console.log('yo');
-      
+      var href = fc.changeSpacesToPluses(newValue);
+      fc.addLink(href); // adding Google Font Link when the user has selected one
     } 
-    console.log( fc.changeSpacesToPluses('will need to add a font link') );
-    target.style[property] = newValue;
+
+    // this will change the font family regardless
+    target.style.fontFamily = newValue;
 
   } else if (property === 'variant'){
     // variant is a special case 
