@@ -19,8 +19,8 @@ On load / init:
       Change header css accordingly
     Else
       Load default config  
-  Call the Google API to get a list of fonts
-    If success - **pass the font list**
+  Call the Google API to get a list of fonts x
+    If success - **pass the font list** x
     If error - post a message about it
   Determine screen width
     If wide enough - load jQuery and Chosen
@@ -90,3 +90,35 @@ CSS
       Assemble into a google URL
     Parse state of form elements
     Update style block with selections  
+
+
+
+ // An outline of functions from the old file:
+
+// getURLVars - parsed set variables from the URL
+// config - set default fonts , checking for URL vars
+// parameterFonts - acted on the set parameters, including variants, checked for existing matches
+// variantsSelectAttach - added variants dropdown, set the selected attribute if needed, styled options
+// getFonts - this is a big one: removes default variants list, caches default list, adds link elements to for each font, reappends system font set, set font styling
+// bit_url - call bit.ly passing link
+// focusShareTextShort - just selected text in shortURL field
+// hide submit button
+// adding the share link
+// selectText - i'm really not sure what this does
+// adding controls that only work with js
+// changeFonts - another biggie - responds to options changing, attaches full font, actually changes the font
+// chosenAttach - added chosen to a bunch of stuff
+// defaultFontChange - worked when no google fonts
+// variantChange - changed font variant of target element
+// font-size change
+// line height change
+// color change
+// hiding elementst
+// turned off body spellchecker
+// control option change - not sure
+// carousel nav - tabbing
+// external links
+// ajax request
+// error handler
+// onJSON - what to do when JSON returns
+// switching controls when user clicks on an element   

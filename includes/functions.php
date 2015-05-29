@@ -61,7 +61,7 @@ $elems = array (
   );
 
 // this creates a set of <option> elements for each font in $system - needs to be placed within a <select>
-function createFontOptions($elem, $system, $defaults, $default){
+function createFontOptions($elem, $system, $defaults = '$defaults', $default = ''){
   foreach ($system['fonts'] as $font) {
     echo '<option class="system-font" value="' . $font . '" ';
     if(
@@ -77,7 +77,7 @@ function createFontOptions($elem, $system, $defaults, $default){
 }
 
 // This creates the <option> elements for the variants - needs to be placed within a <select>
-function createVariantOptions($elem, $system, $defaults, $default){
+function createVariantOptions($elem, $system, $defaults = '$defaults', $default = ''){
   foreach ($system['variants'] as $variant) {
     echo '<option class="system-variant" value="' . $variant . '" ';
     if(
@@ -95,24 +95,25 @@ function createVariantOptions($elem, $system, $defaults, $default){
 
 // This is what generates the <style> element in the header (see header.php for the call)
 function createHeaderStyles($elems, $defaults){
-  // if there is a hash, load styles based on that
-  if($_GET){
-
     echo '<style>';
 
     // creating a style declaration for each element in the global $elems
     foreach ($elems as $elem) {
       
       // need to make strings of the $elem plus facet
-      $varCall = (string)$elem . 'Variant';
-      $fontCall = (string)$elem . 'Font';
-      $sizeCall = (string)$elem . 'Size';
-      $lhCall = (string)$elem . 'LineHeight';
+      $varCall        = (string)$elem . 'Variant';
+      $fontCall       = (string)$elem . 'Font';
+      $sizeCall       = (string)$elem . 'Size';
+      $lhCall         = (string)$elem . 'LineHeight';
       $visibilityCall = (string)$elem . 'Visibility';
-      $colorCall = (string)$elem . 'Color';
+      $colorCall      = (string)$elem . 'Color';
 
       // removing the word 'italic' so we *just* have the weight
-      $weight = str_replace(' italic', '', $_GET[$varCall]);
+      if($_GET){
+        $weight = str_replace(' italic', '', $_GET[$varCall]);
+      } else if (isset($defaults[$elem]['fontVariant'])) {
+        $weight = str_replace(' italic', '', $defaults[$elem]['fontVariant']);
+      }  
 
       //transforming weights into numbers
       switch($weight) {
@@ -124,6 +125,9 @@ function createHeaderStyles($elems, $defaults){
           break;
         case 'bold':
           $weight = '600';
+          break;  
+        default:
+          $weight = '400';
           break;  
       }
 
@@ -140,15 +144,24 @@ function createHeaderStyles($elems, $defaults){
       // checks for color
       if (isset($_GET[$colorCall])) {
         echo 'color: ' . $_GET[$colorCall] . ';';
-        echo "\n";
+      } else if (isset($defaults[$elem]['color'])){
+        echo 'color: ' . $defaults[$elem]['color'] . ';';
       }
+      echo "\n";
 
       // checks for font family
-      echo 'font-family: ' . $_GET[$fontCall] . ';';
+      if (isset($_GET[$fontCall])) {
+        echo 'font-family: ' . $_GET[$fontCall] . ';';
+      } else if (isset($defaults[$elem]['fontFamily'])){
+        echo 'font-family: ' . $defaults[$elem]['fontFamily'] . ';';
+      }
       echo "\n";
 
       // checks to see if variant parameter indicates italic
-      if (strpos($_GET[$varCall], 'italic')) {
+      if (
+        (isset($_GET[$varCall]) && strpos($_GET[$varCall], 'italic')) ||
+        (!isset($_GET[$varCall]) && isset($defaults[$elem]['fontVariant']) && strpos($defaults[$elem]['fontVariant'], 'italic'))
+        ) {
         echo 'font-style: italic;';
         echo "\n";
       }
@@ -158,12 +171,21 @@ function createHeaderStyles($elems, $defaults){
       echo "\n";
 
       // checks for font size
-      echo 'font-size: ' . $_GET[$sizeCall] . 'px;';
+      if (isset($_GET[$sizeCall])) {
+        echo 'font-size: ' . $_GET[$sizeCall] . 'px;';
+      } else if (isset($defaults[$elem]['fontSize'])){
+        echo 'font-size: ' . $defaults[$elem]['fontSize'] . 'px;';
+      }
       echo "\n";
 
       // checks for line height
-      echo 'line-height: ' . $_GET[$lhCall] . ';';
+      if (isset($_GET[$lhCall])) {
+        echo 'line-height: ' . $_GET[$lhCall] . ';';
+      } else if (isset($defaults[$elem]['lineHeight'])){
+        echo 'line-height: ' . $defaults[$elem]['lineHeight'] . ';';
+      }
       echo "\n";
+
       echo '}';
 
       echo "\n";
@@ -180,136 +202,69 @@ function createHeaderStyles($elems, $defaults){
 
     echo '</style>';
 
-  } else {
-    // if there isn't a hash, load the defaults
-    echo '<style>';
-    foreach ($elems as $elem) {
-      //making sure variant is set
-      if(isset($defaults[$elem]['fontVariant'])){
-        //getting rid of 'italic' to just get the weight
-        $weight = str_replace(' italic', '', $defaults[$elem]['fontVariant']);
-
-        //transforming weights into numbers
-        switch($weight) {
-          case 'normal':
-            $weight = '400';
-            break;
-          case 'semibold':
-            $weight = '500';
-            break;
-          case 'bold':
-            $weight = '600';
-            break;  
-        }
-      }
-
-
-      echo '.content ' . $elem . '{'; 
-      echo "\n";  
-      echo 'font-family: ' . $defaults[$elem]['fontFamily'] . ';';
-      echo "\n";
-
-      echo 'font-size: ' . $defaults[$elem]['fontSize'] . 'px;';
-      echo "\n";
-
-      if(isset($defaults[$elem]['fontVariant'])){
-        echo 'font-weight: ' . $weight . ';';
-        echo "\n";
-
-        if (strpos($defaults[$elem]['fontVariant'], 'italic')) {
-          echo 'font-style: italic;';
-          echo "\n";
-        } 
-      }
-
-      echo '}';
-      echo "\n";  
-    }  
-    echo '</style>';
-  }
 }
 
 // function that creates all the element controls with the appropriate names and IDs
 function createAllControls($elem, $label, $system, $defaults){
-  // if there is a hash, load controls based on that
-    // uses same set of stringified variables
-    $varCall = (string)$elem . 'Variant';
-    $fontCall = (string)$elem . 'Font';
-    $sizeCall = (string)$elem . 'Size';
-    $lhCall = (string)$elem . 'LineHeight';
-    $visibilityCall = (string)$elem . 'Visibility';
-    $colorCall = (string)$elem . 'Color';
+  // uses same set of stringified variables
+  $varCall = (string)$elem . 'Variant';
+  $fontCall = (string)$elem . 'Font';
+  $sizeCall = (string)$elem . 'Size';
+  $lhCall = (string)$elem . 'LineHeight';
+  $visibilityCall = (string)$elem . 'Visibility';
+  $colorCall = (string)$elem . 'Color';
+
+  echo '<label for="' . $elem . 'Font">'. $label .' Typeface</label>';
+  echo '<select name="' . $elem . 'Font" id="' . $elem . 'Font" data-target="'. $elem .'">';
   if($_GET){
-
-
-
-    echo '<label for="' . $elem . 'Font">'. $label .' Typeface</label>';
-    echo '<select name="' . $elem . 'Font" id="' . $elem . 'Font">';
     createFontOptions($fontCall, $system); 
-    echo '</select>';
-    echo '<label for="' . $elem . 'Variant">'. $label .' Weight</label>';
-    echo '<select name="' . $elem . 'Variant" id="' . $elem . 'Variant">';
-    createVariantOptions($varCall, $system); 
-    echo '</select>';
-    echo '<label for="' . $elem . 'Size">' . $label . ' Type Size</label>';
-    echo '<input type="number" name="' . $elem . 'Size" id="' . $elem . 'Size" min="8" step="1" value="' . $_GET[$sizeCall];
-    echo '"/>';
-    echo '<label for="' . $elem . 'LineHeight">' . $label . ' Line Height</label>';
-    echo '<input type="number" name="' . $elem . 'LineHeight" id="' . $elem . 'LineHeight" min="0" step=".1" value="';
-    if (isset($_GET[$lhCall])) {
-      echo $_GET[$lhCall];
-    } else {
-      echo '1.4';
-    }
-    echo '"/>';
-    echo '<label for="' . $elem . 'Color">' . $label . ' Color</label>';
-    echo '<input type="color" id="' . $elem . 'Color" name="' . $elem . 'Color" ';
-    if (isset($_GET[$colorCall])) {
-      echo 'value="'.$_GET[$colorCall].'"';
-    }
-    echo '/>';
-    echo '<label for="' . $elem . 'Visibility">';
-    echo '<input type="checkbox" name="' . $elem . 'Visibility" id="' . $elem . 'Visibility" value="hidden" '; 
-    if (isset($_GET[$visibilityCall])  && $_GET[$visibilityCall] === 'hidden'){ 
-      echo "checked='checked'";
-    } 
-    echo ' />Hide</label>';
   } else {
-    // uses same set of stringified variables
-    $varCall = (string)$elem . 'Variant';
-    $fontCall = (string)$elem . 'Font';
-    $sizeCall = (string)$elem . 'Size';
-    $lhCall = (string)$elem . 'LineHeight';
-    $visibilityCall = (string)$elem . 'Visibility';
-    $colorCall = (string)$elem . 'Color';
-
-
-    //if no hash, load controls based on $defaults
-    echo '<label for="' . $elem . 'Font">'. $label .' Typeface</label>';
-    echo '<select name="' . $elem . 'Font" id="' . $elem . 'Font">';
-    createFontOptions($elem, $system, $defaults, 'default'); 
-    echo '</select>';
-
-    echo '<label for="' . $elem . 'Variant">'. $label .' Weight</label>';
-    echo '<select name="' . $elem . 'Variant" id="' . $elem . 'Variant">';
-    createVariantOptions($elem, $system, $defaults, 'default'); 
-    echo '</select>';
-
-    echo '<label for="' . $elem . 'Size">' . $label . ' Type Size</label>';
-    echo '<input type="number" name="' . $elem . 'Size" id="' . $elem . 'Size" min="8" step="1" value="' . $defaults[$elem]['fontSize'];
-    echo '"/>';
-
-    echo '<label for="' . $elem . 'LineHeight">' . $label . ' Line Height</label>';
-    echo '<input type="number" name="' . $elem . 'LineHeight" id="' . $elem . 'LineHeight" min="0" step=".1" value="' . $defaults[$elem]['lineHeight'];
-    echo '"/>';
-
-    echo '<label for="' . $elem . 'Color">' . $label . ' Color</label>';
-    echo '<input type="color" id="' . $elem . 'Color" name="' . $elem . 'Color" ';
-    echo 'value="'.$defaults[$elem]['color'].'"';
-    echo '/>';
-
-    echo '<label for="' . $elem . 'Visibility">';
-    echo '<input type="checkbox" name="' . $elem . 'Visibility" id="' . $elem . 'Visibility" value="hidden">Hide</label>';
+    createFontOptions($elem, $system, $defaults, 'default');
   }
+  echo '</select>';
+
+  echo '<label for="' . $elem . 'Variant">'. $label .' Weight</label>';
+  echo '<select name="' . $elem . 'Variant" id="' . $elem . 'Variant" data-target="'. $elem .'">';
+  if($_GET){
+    createVariantOptions($varCall, $system); 
+  } else {
+    createVariantOptions($elem, $system, $defaults, 'default'); 
+  }
+  echo '</select>';
+
+  echo '<label for="' . $elem . 'Size">' . $label . ' Type Size</label>';
+  echo '<input type="number" name="' . $elem . 'Size" id="' . $elem . 'Size" data-target="'. $elem .'" min="8" step="1" value="';
+  if($_GET){
+    echo $_GET[$sizeCall];
+  } else {
+    echo $defaults[$elem]['fontSize'];
+  }
+  echo '"/>';
+
+  echo '<label for="' . $elem . 'LineHeight">' . $label . ' Line Height</label>';
+  echo '<input type="number" name="' . $elem . 'LineHeight" id="' . $elem . 'LineHeight"  data-target="'. $elem .'" min="0" step=".1" value="';
+  if ($_GET && isset($_GET[$lhCall])) {
+    echo $_GET[$lhCall];
+  } else {
+    echo $defaults[$elem]['lineHeight'];
+  }
+  echo '"/>';
+
+  echo '<label for="' . $elem . 'Color">' . $label . ' Color</label>';
+  echo '<input type="color" id="' . $elem . 'Color" data-target="'. $elem .'" name="' . $elem . 'Color" value="';
+  if ($_GET && isset($_GET[$colorCall])) {
+    echo $_GET[$colorCall];
+  } else {
+    echo $defaults[$elem]['color']; 
+  }
+  echo '"/>';
+
+  echo '<label for="' . $elem . 'Visibility">';
+  echo '<input type="checkbox" name="' . $elem . 'Visibility" id="' . $elem . 'Visibility"  data-target="'. $elem .'" value="hidden" '; 
+  if (isset($_GET[$visibilityCall])  && $_GET[$visibilityCall] === 'hidden'){ 
+    echo "checked='checked'";
+  } 
+  echo ' />Hide</label>';
+
  }
 ?>
