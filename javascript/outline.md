@@ -45,7 +45,7 @@ Respond to Changes
     If the selected font has variants, add variant drop down
     If it does not have variants, remove variant drop down
       Reset targeted element to normal weight / style
-    Change the targeted element to the new font family
+    Change the targeted element to the new font family 
     Fire a Google Analytics event
   On change of font weight / variant
     Change the targeted element's font weight / style

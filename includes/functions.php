@@ -215,7 +215,7 @@ function createAllControls($elem, $label, $system, $defaults){
   $colorCall = (string)$elem . 'Color';
 
   echo '<label for="' . $elem . 'Font">'. $label .' Typeface</label>';
-  echo '<select name="' . $elem . 'Font" id="' . $elem . 'Font" data-target="'. $elem .'">';
+  echo '<select name="' . $elem . 'Font" id="' . $elem . 'Font" data-target="'. $elem .'" data-property="fontFamily">';
   if($_GET){
     createFontOptions($fontCall, $system); 
   } else {
@@ -224,7 +224,7 @@ function createAllControls($elem, $label, $system, $defaults){
   echo '</select>';
 
   echo '<label for="' . $elem . 'Variant">'. $label .' Weight</label>';
-  echo '<select name="' . $elem . 'Variant" id="' . $elem . 'Variant" data-target="'. $elem .'">';
+  echo '<select name="' . $elem . 'Variant" id="' . $elem . 'Variant" data-target="'. $elem .'" data-property="variant">';
   if($_GET){
     createVariantOptions($varCall, $system); 
   } else {
@@ -233,7 +233,7 @@ function createAllControls($elem, $label, $system, $defaults){
   echo '</select>';
 
   echo '<label for="' . $elem . 'Size">' . $label . ' Type Size</label>';
-  echo '<input type="number" name="' . $elem . 'Size" id="' . $elem . 'Size" data-target="'. $elem .'" min="8" step="1" value="';
+  echo '<input type="number" name="' . $elem . 'Size" id="' . $elem . 'Size" data-target="'. $elem .'" data-property="fontSize" min="8" step="1" value="';
   if($_GET){
     echo $_GET[$sizeCall];
   } else {
@@ -242,7 +242,7 @@ function createAllControls($elem, $label, $system, $defaults){
   echo '"/>';
 
   echo '<label for="' . $elem . 'LineHeight">' . $label . ' Line Height</label>';
-  echo '<input type="number" name="' . $elem . 'LineHeight" id="' . $elem . 'LineHeight"  data-target="'. $elem .'" min="0" step=".1" value="';
+  echo '<input type="number" name="' . $elem . 'LineHeight" id="' . $elem . 'LineHeight"  data-target="'. $elem .'" data-property="lineHeight" min="0" step=".1" value="';
   if ($_GET && isset($_GET[$lhCall])) {
     echo $_GET[$lhCall];
   } else {
@@ -251,7 +251,7 @@ function createAllControls($elem, $label, $system, $defaults){
   echo '"/>';
 
   echo '<label for="' . $elem . 'Color">' . $label . ' Color</label>';
-  echo '<input type="color" id="' . $elem . 'Color" data-target="'. $elem .'" name="' . $elem . 'Color" value="';
+  echo '<input type="color" id="' . $elem . 'Color" data-target="'. $elem .'" data-property="color" name="' . $elem . 'Color" value="';
   if ($_GET && isset($_GET[$colorCall])) {
     echo $_GET[$colorCall];
   } else {
